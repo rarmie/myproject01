@@ -1,12 +1,30 @@
 import { PrismaClient } from '../lib/generated/prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
+import * as dotenv from 'dotenv'
+import bcrypt from 'bcryptjs'
 
-const adapter = new PrismaPg({ 
-  connectionString: "postgresql://postgres.uhzcrsuqpdlslvfnzgam:masangya0909@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres"
-})
+dotenv.config()
+
+const connectionString = process.env.DATABASE_URL
+const adapter = new PrismaPg({ connectionString})
 const prisma = new PrismaClient({ adapter })
 
 async function main() {
+  const hashedPassword = await bcrypt.hash('password123', 10)
+
+  const testUser = await prisma.user.upsert({
+    where: { email: 'user@gmail.com'},
+    update: {
+      password: hashedPassword,
+    },
+    create: {
+      name: 'Test User',
+      email: 'user@gmail.com',
+      password: hashedPassword,
+      updatedAt: new Date()
+    }
+  })
+
   const jobs = [
     { company: 'Google', role: 'Frontend Developer', status: 'APPLIED', salary: '$120,000', link: 'https://careers.google.com' },
     { company: 'Meta', role: 'React Engineer', status: 'INTERVIEW', salary: '$130,000', link: 'https://metacareers.com' },
@@ -18,7 +36,7 @@ async function main() {
   for (const job of jobs) {
     await prisma.jobApplication.create({
       data: {
-        userId: 'test-user-id',
+        userId: testUser.id,
         ...job,
         status: job.status as any,
       },

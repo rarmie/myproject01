@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { useRouter } from 'next/navigation'
 
 const jobSchema = z.object({
   company: z.string().min(1, 'Company is required'),
@@ -18,7 +19,9 @@ const jobSchema = z.object({
 
 type JobFormData = z.infer<typeof jobSchema>
 
-export default function AddJobForm() {
+export default function AddJobForm({onClose}: {onClose: () => void}) {
+  const router = useRouter()
+
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<JobFormData>({
     resolver: zodResolver(jobSchema),
     defaultValues: { status: 'APPLIED' },
@@ -30,19 +33,12 @@ export default function AddJobForm() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     })
-    window.location.reload()
+    router.refresh()
+    onClose()
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>+ Add Job</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add New Job Application</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input placeholder="Company" {...register('company')} />
           {errors.company && <p className="text-red-500 text-sm">{errors.company.message}</p>}
           <Input placeholder="Role" {...register('role')} />
@@ -60,7 +56,5 @@ export default function AddJobForm() {
           <Input placeholder="Notes (optional)" {...register('notes')} />
           <Button type="submit" className="w-full">Save</Button>
         </form>
-      </DialogContent>
-    </Dialog>
   )
 }

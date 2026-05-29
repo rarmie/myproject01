@@ -1,0 +1,17 @@
+feat: implement full authentication system and core job tracking features
+
+- Authentication & Authorization:
+  - Integrated NextAuth.js with Google and Credentials providers.
+  - Created secure registration API with password hashing and validation.
+  - Implemented Login and Register components with real-time Zod validation.
+  - Added middleware protection for dashboard, jobs, and documents routes.
+- Core Features & UI:
+  - Established protected dashboard and layout with Sidebar navigation.
+  - Implemented Kanban board and job application forms.
+  - Created API routes for job and concern management.
+- Database & Infrastructure:
+  - Updated Prisma schema with User, JobApplication, Contact, and Document models.
+  - Added database migrations and seeding logic.
+- Fixes:
+  - Secured password fields and improved error feedback in auth forms.
+  - Corrected registration API response handling and imports.

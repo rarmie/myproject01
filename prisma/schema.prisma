@@ -15,6 +15,12 @@ enum ApplicationStatus{
   REJECTED
 }
 
+enum ConcernStatus{
+  OPEN
+  IN_REVIEW
+  RESOLVED
+}
+
 model JobApplication {
   id String @id @default(cuid())
   userId String 
@@ -27,6 +33,8 @@ model JobApplication {
   notes String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   contacts Contact[]
   documents Document[]
@@ -48,4 +56,31 @@ model Document{
   fileUrl String
   jobApplicationId String
   jobApplication JobApplication @relation(fields: [jobApplicationId], references: [id], onDelete: Cascade)
+}
+
+model Concern{
+  id String @id @default(cuid())
+  userId String?
+  name String
+  email String
+  message String @db.Text
+  status ConcernStatus @default(OPEN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
+  resolvedAt DateTime?
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model User{
+  id String @id @default(cuid())
+  email String @unique
+  name String?
+  password String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  applications JobApplication[]
+  concerns Concern[]
 }

@@ -44,3 +44,9 @@ backend/venv/
 next-env.d.ts
 
 /lib/generated/prisma
+
+# prisma
+prisma.config.ts
+
+# tracker
+progress.md
