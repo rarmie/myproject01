@@ -35,15 +35,19 @@ export const authOptions: NextAuthOptions = {
 
         const {email, password} = parsedCredentials.data;
 
+        console.log("Attempting login for", email)
         const user = await prisma.user.findUnique({
           where: {email},
         });
+        console.log("User has password:", !!user?.password)
 
         if (!user || !user.password){
           return null;
         }
 
+        console.log("Comparing passwords...", )
         const passwordsMatch = await bcrypt.compare(password, user.password);
+        console.log("Passwords match:", passwordsMatch)
 
         if (passwordsMatch){
           return{

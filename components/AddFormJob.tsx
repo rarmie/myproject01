@@ -1,7 +1,8 @@
 'use client'
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { set, z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -27,14 +28,40 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
     defaultValues: { status: 'APPLIED' },
   })
 
+  const [isLoading, setLoading] = useState(false)
+  const [error, setError] = useState<string|null>(null)
+
   const onSubmit = async (data: JobFormData) => {
-    await fetch('/api/jobs', {
+    setLoading(true)
+    setError(null)
+
+    try{
+      const res = await fetch('/api/jobs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-    })
-    router.refresh()
-    onClose()
+      })
+
+      if (!res.ok){
+        const data = await res.json().catch(()=>null)
+        const message = typeof data?.error === "string" ? data.error : "Please check the form and try again."
+
+        setError(message)
+        return
+      }
+
+      router.refresh()
+      onClose()
+    }
+    catch(err){
+      console.error("Job submission failed.");
+    }
+    finally{
+      setLoading(false);
+    }
+    
+
+    
   }
 
   return (
@@ -54,7 +81,7 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
           <Input placeholder="Job link (optional)" {...register('link')} />
           <Input placeholder="Salary (optional)" {...register('salary')} />
           <Input placeholder="Notes (optional)" {...register('notes')} />
-          <Button type="submit" className="w-full">Save</Button>
+          <Button type="submit" className="w-full" disabled={isLoading}>{isLoading? 'Saving application...': 'Save'}</Button>
         </form>
   )
 }

@@ -4,6 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { off } from "process";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
+import {redirect} from "next/navigation"
+import { refine } from "zod";
+import Link from "next/link";
 
 
 
@@ -18,6 +22,10 @@ const statusColors: Record<string, string> = {
 export default async function JobsPage(){
 
   const session = await getServerSession(authOptions);
+
+  if (!session?.user.id){
+    redirect('/login')
+  }
 
   const jobs = await prisma.jobApplication.findMany({
     where: {userId: session?.user.id,},
@@ -44,7 +52,8 @@ export default async function JobsPage(){
                 <p className="ms-auto bg-gray-200 rounded-full w-5 h-5 text-center font-bold text-gray-500">{wishlistCounter}</p>
               </div>
               {jobs.filter((job) => job.status === 'WISHLIST').map((job) =>
-                <Card key={job.id} className="rounded-md mb-2">
+              <Link href={`/jobs/${job.id}`} key={job.id}>
+                <Card className="rounded-md mb-2">
                 <CardContent className="flex items-center justify-between p-4">
                   <div>
                     <h2 className="font-semibold text-lg">{job.company}</h2>
@@ -53,6 +62,7 @@ export default async function JobsPage(){
                   <Badge className={statusColors[job.status]}>{job.status}</Badge>
                 </CardContent>
               </Card>
+              </Link>
               )}
             </CardContent>
           </Card>

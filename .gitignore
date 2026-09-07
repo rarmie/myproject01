@@ -49,4 +49,6 @@ next-env.d.ts
 prisma.config.ts
 
 # tracker
-progress.md
+
+# obsidian
+.obsidian/
