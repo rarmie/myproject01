@@ -36,6 +36,10 @@ yarn-error.log*
 node_modules/
 backend/venv/
 
+# python
+__pycache__/
+*.pyc
+
 # vercel
 .vercel
 
@@ -48,7 +52,9 @@ next-env.d.ts
 # prisma
 prisma.config.ts
 
-# tracker
-
-# obsidian
+# obsidian (this repo root doubles as an Obsidian vault for personal notes)
 .obsidian/
+carryovers/
+daily/
+notes/
+templates/
