@@ -7,9 +7,9 @@ import { LogOut } from 'lucide-react'; // Assuming you have lucide-react install
 export default function LogoutButton() {
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       onClick={() => signOut({ callbackUrl: '/login' })}
-      className="flex items-center gap-3"
+      className="justify-start text-muted-foreground hover:text-foreground"
     >
       <LogOut className="w-4 h-4" />
       Logout

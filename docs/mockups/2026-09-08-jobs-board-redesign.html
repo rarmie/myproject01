@@ -1,0 +1,248 @@
+<style>
+  .wsp5 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .wsp5 * { box-sizing: border-box; }
+  .wsp5-label { display:flex; align-items:center; gap:8px; margin: 0 0 10px; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #71717a; }
+  .wsp5-label .pill { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background:#eef2ff; color:#4338ca; }
+
+  .wsp5-shell {
+    display: flex; flex-direction: column;
+    min-height: 460px; border-radius: 16px; overflow: hidden;
+  }
+  .wsp5-topbar { display: flex; align-items: center; gap: 20px; padding: 11px 18px; }
+  .wsp5-brand { display: flex; align-items: center; gap: 8px; margin-right: 6px; }
+  .wsp5-mark { width: 26px; height: 26px; border-radius: 7px; background: radial-gradient(circle at 30% 30%, #818cf8, #4f46e5); display:flex;align-items:center;justify-content:center; }
+  .wsp5-mark svg { width: 14px; height: 14px; fill: #fff; }
+  .wsp5-brand-name { font-weight: 600; font-size: 13px; }
+  .wsp5-tabs { display: flex; gap: 4px; }
+  .wsp5-tab { padding: 5px 11px; border-radius: 7px; font-size: 12px; font-weight: 500; }
+  .wsp5-topbar-spacer { flex: 1; }
+  .wsp5-search { display: flex; align-items: center; gap: 6px; border-radius: 7px; padding: 5px 10px; font-size: 11.5px; width: 150px; }
+  .wsp5-cta { border: none; border-radius: 7px; padding: 6px 11px; font-size: 11.5px; font-weight: 600; color: #fff; background: #6366f1; }
+  .wsp5-avatar { width: 22px; height: 22px; border-radius: 999px; display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700; }
+
+  .wsp5-body { flex: 1; display: flex; min-height: 0; }
+  .wsp5-list { width: 300px; overflow: auto; padding: 12px 8px; }
+  .wsp5-group-head { display: flex; align-items: center; gap: 7px; padding: 9px 8px 5px; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .wsp5-group-dot { width: 6px; height: 6px; border-radius: 999px; }
+  .wsp5-group-count { margin-left: auto; }
+  .wsp5-row { display: flex; align-items: center; gap: 9px; padding: 8px; border-radius: 9px; }
+  .wsp5-row-logo { width: 25px; height: 25px; border-radius: 7px; display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0; }
+  .wsp5-row-co { font-size: 12px; font-weight: 600; }
+  .wsp5-row-role { font-size: 10.5px; }
+  .wsp5-row-right { margin-left: auto; text-align: right; }
+  .wsp5-row-salary { font-size: 10.5px; font-variant-numeric: tabular-nums; }
+  .wsp5-progress { width: 40px; height: 4px; border-radius: 999px; margin-top: 4px; overflow: hidden; }
+  .wsp5-progress > div { height: 100%; border-radius: 999px; }
+
+  .wsp5-detail { flex: 1; padding: 20px 24px; overflow: auto; }
+  .wsp5-d-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 4px; }
+  .wsp5-d-co { display: flex; align-items: center; gap: 11px; }
+  .wsp5-d-logo { width: 38px; height: 38px; border-radius: 10px; display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700; }
+  .wsp5-d-title { font-size: 17px; font-weight: 600; }
+  .wsp5-d-sub { font-size: 11.5px; margin-top: 2px; }
+  .wsp5-d-status { font-size: 10px; font-weight: 700; letter-spacing: .03em; padding: 3px 9px; border-radius: 999px; text-transform: uppercase; height: fit-content; }
+  .wsp5-d-stepper { display: flex; align-items: center; gap: 5px; margin: 16px 0 18px; }
+  .wsp5-d-step { flex: 1; height: 4px; border-radius: 999px; }
+  .wsp5-d-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .wsp5-d-field { border-radius: 10px; padding: 10px 12px; }
+  .wsp5-d-field-label { font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 3px; }
+  .wsp5-d-field-value { font-size: 12.5px; font-weight: 500; }
+  .wsp5-d-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin: 14px 0 8px; }
+  .wsp5-d-note { border-radius: 10px; padding: 12px; font-size: 12px; line-height: 1.6; }
+
+  /* ---- LIGHT THEME ---- */
+  .wsp5-light .wsp5-shell { background:#fff; border:1px solid #e4e4e7; box-shadow:0 20px 40px -24px rgba(0,0,0,.18); }
+  .wsp5-light .wsp5-topbar { background:#fafafa; border-bottom:1px solid #ececef; }
+  .wsp5-light .wsp5-brand-name { color:#18181b; }
+  .wsp5-light .wsp5-tab { color:#71717a; }
+  .wsp5-light .wsp5-tab.active { background:#eef2ff; color:#4338ca; }
+  .wsp5-light .wsp5-search { background:#fff; border:1px solid #e4e4e7; color:#a1a1aa; }
+  .wsp5-light .wsp5-avatar { background:#e4e4e7; color:#52525b; }
+  .wsp5-light .wsp5-list { border-right:1px solid #ececef; }
+  .wsp5-light .wsp5-group-head { color:#a1a1aa; }
+  .wsp5-light .wsp5-group-count { color:#d4d4d8; }
+  .wsp5-light .wsp5-row.selected { background:#f5f5ff; box-shadow:inset 0 0 0 1px #e0e0ff; }
+  .wsp5-light .wsp5-row-logo { background:#f4f4f5; box-shadow:inset 0 0 0 1px #ececef; color:#52525b; }
+  .wsp5-light .wsp5-row-co { color:#18181b; }
+  .wsp5-light .wsp5-row-role { color:#a1a1aa; }
+  .wsp5-light .wsp5-row-salary { color:#71717a; }
+  .wsp5-light .wsp5-progress { background:#f0f0f2; }
+  .wsp5-light .wsp5-detail { background: radial-gradient(700px 200px at 25% -10%, rgba(99,102,241,.06), transparent 60%), #fff; }
+  .wsp5-light .wsp5-d-logo { background:#f4f4f5; box-shadow:inset 0 0 0 1px #ececef; color:#3f3f46; }
+  .wsp5-light .wsp5-d-title { color:#18181b; }
+  .wsp5-light .wsp5-d-sub { color:#a1a1aa; }
+  .wsp5-light .wsp5-d-status { background:#eef2ff; color:#4338ca; }
+  .wsp5-light .wsp5-d-step { background:#ececef; }
+  .wsp5-light .wsp5-d-step.done { background:#6366f1; }
+  .wsp5-light .wsp5-d-step.current { background:linear-gradient(90deg,#6366f1,#ececef); }
+  .wsp5-light .wsp5-d-field { background:#fafafa; border:1px solid #ececef; }
+  .wsp5-light .wsp5-d-field-label { color:#a1a1aa; }
+  .wsp5-light .wsp5-d-field-value { color:#27272a; }
+  .wsp5-light .wsp5-d-section-title { color:#71717a; }
+  .wsp5-light .wsp5-d-note { background:#fafafa; border:1px solid #ececef; color:#52525b; }
+
+  /* ---- DARK THEME ---- */
+  .wsp5-dark { background:#0c0c0e; padding: 14px; border-radius: 18px; }
+  .wsp5-dark .wsp5-shell { background:#0c0c0e; border:1px solid #2a2a30; }
+  .wsp5-dark .wsp5-topbar { background:#101012; border-bottom:1px solid #202024; }
+  .wsp5-dark .wsp5-brand-name { color:#f4f4f5; }
+  .wsp5-dark .wsp5-tab { color:#8a8a92; }
+  .wsp5-dark .wsp5-tab.active { background:#1c1c22; color:#eef0ff; box-shadow:inset 0 0 0 1px #2f2f6b; }
+  .wsp5-dark .wsp5-search { background:#131316; border:1px solid #232327; color:#6b6b72; }
+  .wsp5-dark .wsp5-avatar { background:#27272e; color:#c4c4cc; box-shadow:inset 0 0 0 1px #35353d; }
+  .wsp5-dark .wsp5-list { border-right:1px solid #202024; }
+  .wsp5-dark .wsp5-group-head { color:#8a8a92; }
+  .wsp5-dark .wsp5-group-count { color:#52525b; }
+  .wsp5-dark .wsp5-row.selected { background:#17171c; box-shadow:inset 0 0 0 1px #26262e; }
+  .wsp5-dark .wsp5-row-logo { background:#1c1c20; box-shadow:inset 0 0 0 1px #2a2a30; color:#d4d4d8; }
+  .wsp5-dark .wsp5-row-co { color:#eee; }
+  .wsp5-dark .wsp5-row-role { color:#6b6b72; }
+  .wsp5-dark .wsp5-row-salary { color:#8a8a92; }
+  .wsp5-dark .wsp5-progress { background:#232327; }
+  .wsp5-dark .wsp5-detail { background: radial-gradient(700px 200px at 25% -10%, rgba(99,102,241,.10), transparent 60%), #0c0c0e; }
+  .wsp5-dark .wsp5-d-logo { background:#1c1c20; box-shadow:inset 0 0 0 1px #2a2a30; color:#eee; }
+  .wsp5-dark .wsp5-d-title { color:#f4f4f5; }
+  .wsp5-dark .wsp5-d-sub { color:#8a8a92; }
+  .wsp5-dark .wsp5-d-status { background:#1e1e3d; color:#a5b0ff; }
+  .wsp5-dark .wsp5-d-step { background:#202024; }
+  .wsp5-dark .wsp5-d-step.done { background:#6366f1; }
+  .wsp5-dark .wsp5-d-step.current { background:linear-gradient(90deg,#6366f1,#232327); }
+  .wsp5-dark .wsp5-d-field { background:#131316; border:1px solid #202024; }
+  .wsp5-dark .wsp5-d-field-label { color:#6b6b72; }
+  .wsp5-dark .wsp5-d-field-value { color:#e4e4e7; }
+  .wsp5-dark .wsp5-d-section-title { color:#9a9aa2; }
+  .wsp5-dark .wsp5-d-note { background:#131316; border:1px solid #202024; color:#b4b4bc; }
+
+  .wsp5-toggle-row { display:flex; align-items:center; justify-content:center; gap:10px; margin: 22px 0; }
+  .wsp5-toggle { width:46px; height:26px; border-radius:999px; background:#e4e4e7; position:relative; }
+  .wsp5-toggle .knob { position:absolute; top:3px; left:3px; width:20px; height:20px; border-radius:999px; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.3); }
+  .wsp5-toggle.on { background:#3f3f46; }
+  .wsp5-toggle.on .knob { left:23px; background:#f4f4f5; }
+</style>
+
+<h2>Jobs board redesign — decision record</h2>
+<p style="color:#71717a;font-size:13px">Decided 2026-09-08. Implemented in the app as <code>components/JobsBoard.tsx</code> + <code>components/ui/TopBar.tsx</code> + <code>components/ui/ThemeToggle.tsx</code>, replacing the 5-column kanban + left sidebar with a top-nav + grouped-list + master-detail layout, light default with a dark mode toggle. Indigo accent (<code>#6366f1</code> / <code>oklch(0.511 0.262 276.97)</code>) applied as the shadcn <code>--primary</code> token in <code>app/globals.css</code> for both themes.</p>
+
+<div class="wsp5">
+  <div class="wsp5-label"><span class="pill">Default</span> Light mode</div>
+  <div class="wsp5-light">
+    <div class="wsp5-shell">
+      <div class="wsp5-topbar">
+        <div class="wsp5-brand">
+          <div class="wsp5-mark"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M813.7 210.3l-60.3 60.3c64.5 64.5 100 150.2 100 241.4 0 188.2-153.1 341.3-341.3 341.3S170.7 700.2 170.7 512c0-173.8 130.5-317.6 298.7-338.7v86.2C348.4 279.9 256 385.4 256 512c0 141.2 114.8 256 256 256s256-114.8 256-256c0-68.4-26.6-132.7-75-181l-60.3 60.3c32.2 32.2 50 75.1 50 120.7 0 94.1-76.5 170.7-170.7 170.7S341.3 606.1 341.3 512c0-79.4 54.5-146.3 128-165.3v91.4c-25.5 14.8-42.7 42.3-42.7 73.9 0 47.1 38.2 85.3 85.3 85.3s85.3-38.2 85.3-85.3c0-31.6-17.2-59.1-42.7-73.9V85.3h-85.3v2.1C254 108.9 85.3 291.1 85.3 512c0 235.3 191.4 426.7 426.7 426.7S938.7 747.2 938.7 512c0-113.9-44.4-221.1-125-301.7z"/></svg></div>
+          <div class="wsp5-brand-name">WorkSpace</div>
+        </div>
+        <div class="wsp5-tabs"><div class="wsp5-tab">Dashboard</div><div class="wsp5-tab active">Jobs</div><div class="wsp5-tab">Documents</div></div>
+        <div class="wsp5-topbar-spacer"></div>
+        <div class="wsp5-search">🔍 Search...</div>
+        <button class="wsp5-cta">+ Add</button>
+        <div class="wsp5-avatar">TU</div>
+      </div>
+      <div class="wsp5-body">
+        <div class="wsp5-list">
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#6366f1"></span>Applied<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row"><div class="wsp5-row-logo">G</div><div><div class="wsp5-row-co">Google</div><div class="wsp5-row-role">Frontend Developer</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$120,000</div><div class="wsp5-progress"><div style="width:25%;background:#6366f1"></div></div></div></div>
+
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#eab308"></span>Interview<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row selected"><div class="wsp5-row-logo">M</div><div><div class="wsp5-row-co">Meta</div><div class="wsp5-row-role">React Engineer</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$130,000</div><div class="wsp5-progress"><div style="width:50%;background:#eab308"></div></div></div></div>
+
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#22c55e"></span>Offer<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row"><div class="wsp5-row-logo">S</div><div><div class="wsp5-row-co">Spotify</div><div class="wsp5-row-role">Full Stack Dev</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$115,000</div><div class="wsp5-progress"><div style="width:75%;background:#22c55e"></div></div></div></div>
+
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#a1a1aa"></span>Wishlist<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row"><div class="wsp5-row-logo">N</div><div><div class="wsp5-row-co">Netflix</div><div class="wsp5-row-role">UI Engineer</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$140,000</div><div class="wsp5-progress"><div style="width:10%;background:#a1a1aa"></div></div></div></div>
+
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#f43f5e"></span>Rejected<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row" style="opacity:.55"><div class="wsp5-row-logo">A</div><div><div class="wsp5-row-co">Apple</div><div class="wsp5-row-role">Software Engineer</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$125,000</div><div class="wsp5-progress"><div style="width:100%;background:#f43f5e"></div></div></div></div>
+        </div>
+
+        <div class="wsp5-detail">
+          <div class="wsp5-d-head">
+            <div class="wsp5-d-co"><div class="wsp5-d-logo">M</div><div><div class="wsp5-d-title">Meta</div><div class="wsp5-d-sub">React Engineer</div></div></div>
+            <div class="wsp5-d-status">Interview</div>
+          </div>
+          <div class="wsp5-d-stepper">
+            <div class="wsp5-d-step done"></div><div class="wsp5-d-step done"></div><div class="wsp5-d-step current"></div><div class="wsp5-d-step"></div><div class="wsp5-d-step"></div>
+          </div>
+          <div class="wsp5-d-grid">
+            <div class="wsp5-d-field"><div class="wsp5-d-field-label">Salary</div><div class="wsp5-d-field-value">$130,000</div></div>
+            <div class="wsp5-d-field"><div class="wsp5-d-field-label">Applied</div><div class="wsp5-d-field-value">Aug 14, 2026</div></div>
+            <div class="wsp5-d-field"><div class="wsp5-d-field-label">Link</div><div class="wsp5-d-field-value" style="color:#4f46e5">metacareers.com</div></div>
+            <div class="wsp5-d-field"><div class="wsp5-d-field-label">Contacts</div><div class="wsp5-d-field-value">1 contact</div></div>
+          </div>
+          <div class="wsp5-d-section-title">Notes</div>
+          <div class="wsp5-d-note">Recruiter screen went well. Onsite loop scheduled for next Tuesday — 4 rounds, focus on React internals and system design.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wsp5-toggle-row">
+    <span style="font-size:12px;color:#71717a">Theme switch in the top bar</span>
+    <div class="wsp5-toggle on"><div class="knob"></div></div>
+  </div>
+
+  <div class="wsp5-label"><span class="pill" style="background:#232327;color:#c4c4cc">Toggle</span> Dark mode</div>
+  <div class="wsp5-dark">
+    <div class="wsp5-shell">
+      <div class="wsp5-topbar">
+        <div class="wsp5-brand">
+          <div class="wsp5-mark"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M813.7 210.3l-60.3 60.3c64.5 64.5 100 150.2 100 241.4 0 188.2-153.1 341.3-341.3 341.3S170.7 700.2 170.7 512c0-173.8 130.5-317.6 298.7-338.7v86.2C348.4 279.9 256 385.4 256 512c0 141.2 114.8 256 256 256s256-114.8 256-256c0-68.4-26.6-132.7-75-181l-60.3 60.3c32.2 32.2 50 75.1 50 120.7 0 94.1-76.5 170.7-170.7 170.7S341.3 606.1 341.3 512c0-79.4 54.5-146.3 128-165.3v91.4c-25.5 14.8-42.7 42.3-42.7 73.9 0 47.1 38.2 85.3 85.3 85.3s85.3-38.2 85.3-85.3c0-31.6-17.2-59.1-42.7-73.9V85.3h-85.3v2.1C254 108.9 85.3 291.1 85.3 512c0 235.3 191.4 426.7 426.7 426.7S938.7 747.2 938.7 512c0-113.9-44.4-221.1-125-301.7z"/></svg></div>
+          <div class="wsp5-brand-name">WorkSpace</div>
+        </div>
+        <div class="wsp5-tabs"><div class="wsp5-tab">Dashboard</div><div class="wsp5-tab active">Jobs</div><div class="wsp5-tab">Documents</div></div>
+        <div class="wsp5-topbar-spacer"></div>
+        <div class="wsp5-search">🔍 Search...</div>
+        <button class="wsp5-cta">+ Add</button>
+        <div class="wsp5-avatar">TU</div>
+      </div>
+      <div class="wsp5-body">
+        <div class="wsp5-list">
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#818cf8"></span>Applied<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row"><div class="wsp5-row-logo">G</div><div><div class="wsp5-row-co">Google</div><div class="wsp5-row-role">Frontend Developer</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$120,000</div><div class="wsp5-progress"><div style="width:25%;background:#818cf8"></div></div></div></div>
+
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#facc15"></span>Interview<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row selected"><div class="wsp5-row-logo">M</div><div><div class="wsp5-row-co">Meta</div><div class="wsp5-row-role">React Engineer</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$130,000</div><div class="wsp5-progress"><div style="width:50%;background:#facc15"></div></div></div></div>
+
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#34d399"></span>Offer<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row"><div class="wsp5-row-logo">S</div><div><div class="wsp5-row-co">Spotify</div><div class="wsp5-row-role">Full Stack Dev</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$115,000</div><div class="wsp5-progress"><div style="width:75%;background:#34d399"></div></div></div></div>
+
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#71717a"></span>Wishlist<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row"><div class="wsp5-row-logo">N</div><div><div class="wsp5-row-co">Netflix</div><div class="wsp5-row-role">UI Engineer</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$140,000</div><div class="wsp5-progress"><div style="width:10%;background:#71717a"></div></div></div></div>
+
+          <div class="wsp5-group-head"><span class="wsp5-group-dot" style="background:#fb7185"></span>Rejected<span class="wsp5-group-count">1</span></div>
+          <div class="wsp5-row" style="opacity:.5"><div class="wsp5-row-logo">A</div><div><div class="wsp5-row-co">Apple</div><div class="wsp5-row-role">Software Engineer</div></div><div class="wsp5-row-right"><div class="wsp5-row-salary">$125,000</div><div class="wsp5-progress"><div style="width:100%;background:#fb7185"></div></div></div></div>
+        </div>
+
+        <div class="wsp5-detail">
+          <div class="wsp5-d-head">
+            <div class="wsp5-d-co"><div class="wsp5-d-logo">M</div><div><div class="wsp5-d-title">Meta</div><div class="wsp5-d-sub">React Engineer</div></div></div>
+            <div class="wsp5-d-status">Interview</div>
+          </div>
+          <div class="wsp5-d-stepper">
+            <div class="wsp5-d-step done"></div><div class="wsp5-d-step done"></div><div class="wsp5-d-step current"></div><div class="wsp5-d-step"></div><div class="wsp5-d-step"></div>
+          </div>
+          <div class="wsp5-d-grid">
+            <div class="wsp5-d-field"><div class="wsp5-d-field-label">Salary</div><div class="wsp5-d-field-value">$130,000</div></div>
+            <div class="wsp5-d-field"><div class="wsp5-d-field-label">Applied</div><div class="wsp5-d-field-value">Aug 14, 2026</div></div>
+            <div class="wsp5-d-field"><div class="wsp5-d-field-label">Link</div><div class="wsp5-d-field-value" style="color:#a5b0ff">metacareers.com</div></div>
+            <div class="wsp5-d-field"><div class="wsp5-d-field-label">Contacts</div><div class="wsp5-d-field-value">1 contact</div></div>
+          </div>
+          <div class="wsp5-d-section-title">Notes</div>
+          <div class="wsp5-d-note">Recruiter screen went well. Onsite loop scheduled for next Tuesday — 4 rounds, focus on React internals and system design.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:22px">
+  <h3 style="font-size:14px">Path from concept to code</h3>
+  <ul style="font-size:13px;color:#52525b;line-height:1.85">
+    <li>Started as a light reskin (indigo accent) of the existing 5-column kanban + sidebar</li>
+    <li>Pushed drastic (neo-brutalist) — rejected as unprofessional for the audience</li>
+    <li>Pushed drastic again, staying professional — dark "command center" palette, same structure</li>
+    <li>Went structural — dropped the sidebar and kanban columns for a top-nav + grouped-list + master-detail panel</li>
+    <li>Landed here: light default, dark toggle, both themes sharing one indigo accent, real logo mark</li>
+  </ul>
+</div>

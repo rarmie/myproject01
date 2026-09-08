@@ -66,3 +66,18 @@ Providers are Google + Credentials (bcrypt, cost 12, set in `app/api/register/ro
 
 - `progress.md` — running session log of decisions, bugs hit, and their fixes. Imported above (`@progress.md`) so it's loaded into context at the start of every session — check it before re-debugging something that may already be logged there.
 - `GEMINI.md` — the owner is deliberately learning this stack and asks for explanation alongside code rather than bare snippets.
+
+## Obsidian vault
+
+Notes are markdown in this repo. Follow these conventions.
+
+- Daily notes: `daily/YYYY-MM-DD.md`. Never create one — I open it via
+  Obsidian so the template applies. Append to the existing file only.
+- Appending to a daily note: add bullets under the existing heading.
+  Never rewrite the file or reorder sections.
+- ADRs: `docs/adr/NNNN-slug.md`, sequential. Check the highest existing
+  number before creating one.
+- Frontmatter: write literal values (`date: 2026-09-08`). `{{date}}` and
+  `{{title}}` are Obsidian template placeholders — never emit them.
+- Internal links: `[[0003-session-scheduling]]`, no `.md` extension.
+- Never touch `.obsidian/`.

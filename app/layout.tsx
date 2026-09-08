@@ -23,6 +23,14 @@ export const metadata: Metadata = {
   description: "Track your job applications with ease",
 };
 
+const themeInitScript = `
+  try {
+    var stored = localStorage.getItem('theme');
+    var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.classList.toggle('dark', dark);
+  } catch (e) {}
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,8 +40,12 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-zinc-50 font-sans">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <div className="flex flex-1">
           {children}
         </div>

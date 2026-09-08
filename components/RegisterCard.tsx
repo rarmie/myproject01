@@ -5,10 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import {Card, CardTitle, CardHeader, CardContent, CardFooter} from './ui/card'
+import {Card, CardHeader, CardContent, CardFooter} from './ui/card'
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
-import { Car } from "lucide-react"
 
 const registerSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -73,7 +72,8 @@ export default function RegisterCard(){
 
             router.push('/dashboard')
             router.refresh()
-        } catch (error) {
+        } catch (err) {
+            console.error('Registration failed.', err)
             setError(
                 'Something went wrong. Please try again.'
             )
@@ -83,7 +83,7 @@ export default function RegisterCard(){
     }
 
     return(
-        <Card className="w-full max-w-md shadow-lg border-zinc-200">
+        <Card className="w-full max-w-md shadow-lg">
             <CardHeader className="flex flex-col justify-center items-center pt-8">
                 <img src="/124-job-tracking.svg" className="w-16 h-16 mb-2" alt="Logo"/>
                 <h3 className="text-2xl font-bold tracking-tight">Welcome to WorkSpace</h3>
@@ -123,38 +123,38 @@ export default function RegisterCard(){
                 <div className="relative my-6">
                     <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-white px-2 text-muted-foreground">OR</span>
+                        <span className="bg-card px-2 text-muted-foreground">OR</span>
                     </div>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     {error && (<p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">{error}</p>)}
-                    <div className="space-y-4">
-                        <label className="text-sm font-md">First Name</label>
+                    <div className="space-y-1.5">
+                        <label className="text-sm font-medium">First Name</label>
                         <Input placeholder="Enter your first name..." {...register('firstName')}/>
                         {errors.firstName && <p className="text-sm text-destructive">{errors.firstName.message}</p>}
                     </div>
 
-                    <div className="space-y-4">
-                        <label className="text-sm font-md">Last Name</label>
+                    <div className="space-y-1.5">
+                        <label className="text-sm font-medium">Last Name</label>
                         <Input placeholder="Enter your last name..." {...register('lastName')}/>
                         {errors.lastName && <p className="text-sm text-destructive">{errors.lastName.message}</p>}
                     </div>
 
-                    <div className="space-y-4">
-                        <label className="text-sm font-md">Email</label>
+                    <div className="space-y-1.5">
+                        <label className="text-sm font-medium">Email</label>
                         <Input placeholder="Enter your email..." {...register('email')}/>
                         {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
                     </div>
 
-                    <div className="space-y-4">
-                        <label className="text-sm font-md">Password</label>
+                    <div className="space-y-1.5">
+                        <label className="text-sm font-medium">Password</label>
                         <Input type="password" placeholder="Enter your password..." {...register('password')}/>
                         {errors.password && <p className="text-sm text-destructive">{errors.password?.message}</p>}
                     </div>
 
-                    <div className="space-y-4">
-                        <label className="text-sm font-md">Confirm Password</label>
+                    <div className="space-y-1.5">
+                        <label className="text-sm font-medium">Confirm Password</label>
                         <Input type="password" placeholder="Confirm your password..." {...register('confirmPassword')}/>
                         {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>}
                     </div>
