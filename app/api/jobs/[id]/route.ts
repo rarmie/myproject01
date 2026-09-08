@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
+import { getServerSession } from 'next-auth'
+import {authOptions} from '@/app/api/auth/[...nextauth]/route'
 
 const updateSchema = z.object({
   company: z.string().optional(),
@@ -12,6 +14,15 @@ const updateSchema = z.object({
 })
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getServerSession(authOptions)
+
+  if (!session?.user.id){
+    return NextResponse.json(
+      {error: 'Unauthorized'},
+      {status: 401}
+    )
+  }
+
   const body = await req.json()
   const parsed = updateSchema.safeParse(body)
 
@@ -20,7 +31,10 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 
   const job = await prisma.jobApplication.update({
-    where: { id: params.id },
+    where: { 
+      id: params.id,
+      userId: session.user.id
+     },
     data: parsed.data,
   })
 
@@ -28,8 +42,19 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getServerSession(authOptions)
+
+  if (!session?.user.id){
+    return NextResponse.json(
+      {error: 'Unauthorized'},
+      {status: 401}
+    )
+  }
   await prisma.jobApplication.delete({
-    where: { id: params.id },
+    where: { 
+      id: params.id,
+      userId: session.user.id 
+    },
   })
 
   return NextResponse.json({ message: 'Job deleted successfully' })

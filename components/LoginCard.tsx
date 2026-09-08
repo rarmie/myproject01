@@ -47,7 +47,7 @@ export default function LoginCard() {
     }
 
     return (
-        <Card className="w-full max-w-md shadow-lg border-zinc-200">
+        <Card className="w-full max-w-md shadow-lg">
             <CardHeader className="flex flex-col justify-center items-center pt-8">
                 <img src="/124-job-tracking.svg" className="w-16 h-16 mb-2" alt="Logo"/>
                 <h3 className="text-2xl font-bold tracking-tight">Welcome back</h3>
@@ -88,7 +88,7 @@ export default function LoginCard() {
                 <div className="relative my-6">
                     <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-white px-2 text-muted-foreground">Or continue with</span>
+                        <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
                     </div>
                 </div>
 
@@ -99,21 +99,21 @@ export default function LoginCard() {
                         </p>
                     )}
                     
-                    <div className="space-y-4">
+                    <div className="space-y-1.5">
                         <label className="text-sm font-medium">Email</label>
-                        <Input 
-                            type="email" 
-                            placeholder="name@example.com" 
+                        <Input
+                            type="email"
+                            placeholder="name@example.com"
                             {...register("email")}
                         />
                         {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
                     </div>
-                    
-                    <div className="space-y-4">
+
+                    <div className="space-y-1.5">
                         <label className="text-sm font-medium">Password</label>
-                        <Input 
-                            type="password" 
-                            placeholder="••••••••" 
+                        <Input
+                            type="password"
+                            placeholder="••••••••"
                             {...register("password")}
                         />
                         {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
@@ -126,7 +126,7 @@ export default function LoginCard() {
             </CardContent>
             <CardFooter className="flex justify-center">
                     <p className="text-sm text-muted-foreground">
-                        Don't have an account? {" "} <a href="/register" className="text-primary font-medium hover:underline">Register</a>
+                        Don&apos;t have an account? {" "} <a href="/register" className="text-primary font-medium hover:underline">Register</a>
                     </p>
             </CardFooter>
         </Card>
