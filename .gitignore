@@ -61,3 +61,7 @@ templates/
 
 # ui-preview mockup sessions (working files only; decided mockups live in docs/mockups/)
 docs/mockups/sessions/
+
+# agent instructions + session log (local only, not shared)
+CLAUDE.md
+progress.md
