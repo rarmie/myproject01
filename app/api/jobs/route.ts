@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 import { getServerSession } from "next-auth";
 import {authOptions} from '@/app/api/auth/[...nextauth]/route'
+import { ApplicationStatus } from '@/lib/generated/prisma/enums';
+
+const VALID_STATUSES = new Set(Object.values(ApplicationStatus))
 
 const jobSchema = z.object({
   company: z.string().min(1),
@@ -50,10 +53,14 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const status = searchParams.get('status')
 
+  if (status && !VALID_STATUSES.has(status as ApplicationStatus)){
+    return NextResponse.json({error: 'Invalid status'}, {status: 400})
+  }
+
   const jobs = await prisma.jobApplication.findMany({
     where: {
       userId: session.user.id,
-      ...(status ? { status: status as any } : {}),
+      ...(status ? { status: status as ApplicationStatus } : {}),
     },
     orderBy: { createdAt: 'desc' },
   })
