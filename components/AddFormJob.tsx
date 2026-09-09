@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
 import { useRouter } from 'next/navigation'
 
 const jobSchema = z.object({
@@ -27,9 +28,45 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
     defaultValues: { status: 'APPLIED' },
   })
 
+  const [pasteText, setPasteText] = useState('')
+  const [isExtracting, setExtracting] = useState(false)
+  const [extractError, setExtractError] = useState<string | null>(null)
+
   const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState<string|null>(null)
 
+  const handleExtract = async () => {
+    setExtracting(true)
+    setExtractError(null)
+
+    try {
+    const res = await fetch('/api/jobs/extract', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({text: pasteText})
+    })
+
+    if (!res.ok){
+      const data = await res.json().catch(() => null)
+      setExtractError(typeof data?.error === 'string' ? data.error : 'Extraction failed.')
+      return
+    }
+
+    const extracted = await res.json()
+    if (extracted.company) setValue('company', extracted.company)
+    if (extracted.role) setValue('role', extracted.role)
+    if (extracted.salary) setValue('salary', extracted.salary)
+    if (extracted.link) setValue('link', extracted.link)
+
+    } catch (err) {
+      console.error('Extraction failed.', err)
+      setExtractError('Something went wrong, Please try again.')
+
+    } finally {
+      setExtracting(false)
+    }
+  }
+  
   const onSubmit = async (data: JobFormData) => {
     setLoading(true)
     setError(null)
@@ -63,6 +100,30 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div className="space-y-1.5">
+        <label className="text-sm font-medium">Paste a job posting (optional)</label>
+        <Textarea
+          placeholder="Paste the job description here..."
+          value={pasteText}
+          onChange={(e) => setPasteText(e.target.value)}
+          rows={4}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          disabled={isExtracting || !pasteText}
+          onClick={handleExtract}
+        >
+          {isExtracting ? 'Extracting...' : 'Extract details'}
+        </Button>
+        {extractError && (
+          <p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">
+            {extractError}
+          </p>
+        )}
+      </div>
+      
       {error && (
         <p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">
           {error}
