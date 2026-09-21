@@ -10,7 +10,7 @@ const updateSchema = z.object({
   company: z.string().min(1).optional(),
   role: z.string().min(1).optional(),
   status: z.enum(['WISHLIST', 'APPLIED', 'INTERVIEW', 'OFFER', 'REJECTED']).optional(),
-  link: z.string().or(z.literal('')).optional().transform(emptyToNull),
+  link: z.union([z.url(), z.literal('')]).optional().transform(emptyToNull),
   salary: z.string().optional().transform(emptyToNull),
   notes: z.string().optional().transform(emptyToNull),
   appliedAt: z.coerce.date().optional()
