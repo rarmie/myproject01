@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 app = FastAPI()
 
@@ -8,7 +8,7 @@ def read_root():
     return {"message": "Job Tracker API"}
 
 class ExtractRequest(BaseModel):
-    text: str
+    text: str = Field(min_length = 20)
 
 class ExtractResponse(BaseModel):
     company: str
@@ -24,4 +24,13 @@ async def extract_job(payload: ExtractRequest)->ExtractResponse:
         role="Stub role",
         link=None,
         salary=None
+    )
+
+class HealthResponse(BaseModel):
+    status: str
+
+@app.get("/health")
+def check_health()->HealthResponse:
+    return HealthResponse(
+        status="ok"
     )
