@@ -112,7 +112,7 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
           type="button"
           variant="outline"
           className="w-full"
-          disabled={isExtracting || !pasteText}
+          disabled={isExtracting || !pasteText || pasteText.trim().length < 20}
           onClick={handleExtract}
         >
           {isExtracting ? 'Extracting...' : 'Extract details'}
