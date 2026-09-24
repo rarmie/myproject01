@@ -108,11 +108,15 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
           onChange={(e) => setPasteText(e.target.value)}
           rows={4}
         />
+        
+        <p className="text-xs text-muted-foreground">
+            Minimum of 20 characters.
+        </p>
         <Button
           type="button"
           variant="outline"
           className="w-full"
-          disabled={isExtracting || !pasteText}
+          disabled={isExtracting || pasteText.trim().length < 20}
           onClick={handleExtract}
         >
           {isExtracting ? 'Extracting...' : 'Extract details'}
