@@ -14,6 +14,7 @@ class ExtractResponse(BaseModel):
     company: str
     role: str
     salary: str | None = None
+    requirements: str | None = None
     link: str | None = None
 
 @app.post("/extract")
