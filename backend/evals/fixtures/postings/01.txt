@@ -1,0 +1,19 @@
+Software Engineer
+
+TechNova Solutions is hiring a Software Engineer to join our development team.
+
+Responsibilities:
+- Develop and maintain web applications
+- Build REST APIs
+- Fix bugs and improve existing software
+- Collaborate with frontend and backend developers
+
+Requirements:
+- Bachelor's degree in Computer Science or related field
+- Experience with Python or JavaScript
+- Familiarity with Git
+- Knowledge of REST APIs
+
+Salary: $75,000 per year
+
+Apply here: https://technova.example.com/jobs/software-engineer

@@ -1,0 +1,20 @@
+**Junior Full Stack Developer**
+
+We are looking for a Junior Full Stack Developer to join our growing engineering team. You will help develop and maintain web applications, build REST APIs, fix bugs, and collaborate with designers and other developers.
+
+**Requirements:**
+- Bachelor's degree in Computer Science, Information Technology, or a related field
+- Basic knowledge of JavaScript and TypeScript
+- Familiarity with React and Node.js
+- Understanding of REST APIs
+- Basic SQL knowledge
+- Familiarity with Git
+- Good problem-solving and communication skills
+
+**Salary:** PHP 35,000–45,000 per month
+
+**Employment Type:** Full-time
+
+**Location:** Remote
+
+**Apply here:** https://example.com/jobs/junior-fullstack

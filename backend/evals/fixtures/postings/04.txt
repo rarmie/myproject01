@@ -1,0 +1,39 @@
+🚀 WE'RE HIRING!!! FULL STACK SOFTWARE DEVELOPER 🚀
+
+ABC Digital Inc. is looking for a talented and motivated developer who enjoys solving problems and working on different types of projects.
+
+ABOUT THE ROLE:
+
+You'll be working on web applications for both internal and external customers. The position involves frontend development, backend development, API development, database work, debugging, testing and occasionally helping the QA team investigate production issues.
+
+Our current technology stack includes JavaScript, TypeScript, React, Next.js, Node.js, PostgreSQL, Docker, Git and AWS. You don't need to know everything, but experience with several of these technologies is preferred.
+
+WHAT WE NEED:
+
+• Bachelor's degree in Computer Science, Information Technology or a related field
+• At least 1 year of software development experience
+• JavaScript or TypeScript experience
+• Knowledge of React or another frontend framework
+• Experience building REST APIs
+• Understanding of relational databases
+• Git
+• Good problem-solving and communication skills
+
+BONUS SKILLS:
+AWS, Docker, Redis, Prisma, automated testing, CI/CD and Agile experience.
+
+LOCATION: Makati City, Metro Manila
+WORK SETUP: Hybrid — 3 days onsite and 2 days remote
+EMPLOYMENT: Full-time
+
+SALARY: Competitive salary package depending on experience and technical assessment. Exact compensation will be discussed during the interview.
+
+BENEFITS:
+HMO, government benefits, paid vacation leave, sick leave, performance incentives and training opportunities.
+
+HOW TO APPLY:
+
+Send your updated resume and GitHub profile. A portfolio is highly encouraged. Shortlisted candidates will be contacted for an initial interview and technical assessment.
+
+Apply here:
+https://abcdigital.example.com/careers/fullstack-developer

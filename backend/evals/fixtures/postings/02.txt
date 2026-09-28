@@ -1,0 +1,17 @@
+Frontend Developer
+
+PixelWorks is looking for a Frontend Developer to join our growing team.
+
+You will build responsive web interfaces using React and TypeScript and work closely with designers and backend engineers.
+
+Requirements:
+- Experience with React
+- Strong knowledge of JavaScript or TypeScript
+- HTML and CSS
+- Git
+- Good communication skills
+
+This is a full-time position based in Manila.
+
+Apply through our careers page:
+https://pixelworks.example.com/careers/frontend
