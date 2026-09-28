@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
 
 app = FastAPI()
 
@@ -8,7 +9,17 @@ def read_root():
     return {"message": "Job Tracker API"}
 
 class ExtractRequest(BaseModel):
-    text: str = Field(min_length = 20)
+    text: str = Field(min_length=20, max_length=50_000)
+
+    @field_validator("text", mode="before")
+    @classmethod
+    def trim_text(cls, value):
+        if isinstance(value, str):
+            value = value.strip()
+
+        return value
+
+
 
 class ExtractResponse(BaseModel):
     company: str
