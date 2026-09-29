@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 const extractSchema = z.object({
-    text: z.string().trim().min(20),
+    text: z.string().trim().min(20).max(50_000),
 })
 
 export async function POST(req: NextRequest){

@@ -1,0 +1,9 @@
+Junior Python Developer
+
+ByteCraft is hiring a Junior Python Developer.
+
+Requirements: Python, Git, basic SQL, and good problem-solving skills.
+
+Salary: PHP 30,000/month.
+
+Apply: https://bytecraft.example.com/jobs/python-junior

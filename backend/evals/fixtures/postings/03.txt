@@ -1,0 +1,17 @@
+Backend Developer
+
+CloudBridge Technologies is hiring a Backend Developer.
+
+The developer will build APIs, work with databases, fix bugs, write automated tests, and collaborate with frontend developers.
+
+Requirements:
+- 1–3 years of backend development experience
+- Python and FastAPI
+- PostgreSQL or MySQL
+- REST API knowledge
+- Docker is a plus
+
+Compensation: PHP 45,000–65,000 per month depending on experience.
+
+Applications can be submitted at:
+https://cloudbridge.example.com/apply/backend-developer
