@@ -13,13 +13,11 @@ class ExtractRequest(BaseModel):
 
     @field_validator("text", mode="before")
     @classmethod
-    def trim_text(cls, value):
+    def trim_text(cls, value: object) -> object: 
         if isinstance(value, str):
             value = value.strip()
 
         return value
-
-
 
 class ExtractResponse(BaseModel):
     company: str
@@ -29,7 +27,7 @@ class ExtractResponse(BaseModel):
     link: str | None = None
 
 @app.post("/extract")
-async def extract_job(payload: ExtractRequest)->ExtractResponse:
+async def extract_job(payload: ExtractRequest) -> ExtractResponse:
 
     return ExtractResponse(
         company="Stub Company",
@@ -42,7 +40,7 @@ class HealthResponse(BaseModel):
     status: str
 
 @app.get("/health")
-def check_health()->HealthResponse:
+def check_health() -> HealthResponse:
     return HealthResponse(
         status="ok"
     )
