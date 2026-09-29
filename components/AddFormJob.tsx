@@ -35,6 +35,18 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
   const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState<string|null>(null)
 
+  const trimmedPastedText = pasteText.trim().length
+
+  function setHint(){
+    if (trimmedPastedText < 20){
+      return "Paste at least 20 characters."
+    }
+
+    if (trimmedPastedText > 50_000){
+      return "Pasted text exceeds the maximum amount of characters."
+    }
+  }
+
   const handleExtract = async () => {
     setExtracting(true)
     setExtractError(null)
@@ -103,6 +115,7 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
       <div className="space-y-1.5">
         <label className="text-sm font-medium">Paste a job posting (optional)</label>
         <Textarea
+          className='h-40 max-h-40'
           placeholder="Paste the job description here..."
           value={pasteText}
           onChange={(e) => setPasteText(e.target.value)}
@@ -110,13 +123,13 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
         />
         
         <p className="text-xs text-muted-foreground">
-            Minimum of 20 characters.
+          {setHint()}
         </p>
         <Button
           type="button"
           variant="outline"
           className="w-full"
-          disabled={isExtracting || pasteText.trim().length < 20}
+          disabled={isExtracting || trimmedPastedText < 20 || trimmedPastedText > 50_000}
           onClick={handleExtract}
         >
           {isExtracting ? 'Extracting...' : 'Extract details'}
