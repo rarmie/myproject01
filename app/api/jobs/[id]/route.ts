@@ -11,6 +11,7 @@ const updateSchema = z.object({
   link: z.string().optional(),
   salary: z.string().optional(),
   notes: z.string().optional(),
+  requirements: z.array(z.string()).optional()
 })
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
