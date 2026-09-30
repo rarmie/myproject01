@@ -48,6 +48,18 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           <p><strong>Applied:</strong> {new Date(job.appliedAt).toLocaleDateString()}</p>
           <p><strong>Link:</strong> {job.link ? <a href={job.link} className="text-blue-500 underline">View</a> : 'N/A'}</p>
           <p><strong>Notes:</strong> {job.notes ?? 'N/A'}</p>
+          <div>
+            <strong>Requirements:</strong>
+            {job.requirements.length > 0 ? (
+              <ul className="list-disc pl-5">
+                {job.requirements.map((req) => (
+                  <li key={req}>{req}</li>
+                ))}
+              </ul>
+            ) : (
+              ' N/A'
+            )}
+          </div>
         </CardContent>
       </Card>
 

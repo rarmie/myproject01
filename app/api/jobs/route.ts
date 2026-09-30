@@ -14,6 +14,7 @@ const jobSchema = z.object({
   link: z.string().optional(),
   salary: z.string().optional(),
   notes: z.string().optional(),
+  requirements: z.array(z.string()).optional()
 })
 
 export async function POST(req: NextRequest) {

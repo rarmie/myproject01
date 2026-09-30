@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { useRouter } from 'next/navigation'
+import { X } from 'lucide-react'
 
 const jobSchema = z.object({
   company: z.string().min(1, 'Company is required'),
@@ -16,6 +17,7 @@ const jobSchema = z.object({
   link: z.string().url().optional().or(z.literal('')),
   salary: z.string().optional(),
   notes: z.string().optional(),
+  requirements: z.string().optional()
 })
 
 type JobFormData = z.infer<typeof jobSchema>
@@ -69,6 +71,7 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
     if (extracted.role) setValue('role', extracted.role)
     if (extracted.salary) setValue('salary', extracted.salary)
     if (extracted.link) setValue('link', extracted.link)
+    if (extracted.requirements) setValue('requirements', extracted.requirements.join("\n"))
 
     } catch (err) {
       console.error('Extraction failed.', err)
@@ -83,11 +86,19 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
     setLoading(true)
     setError(null)
 
+    const payload = {
+      ...data,
+      requirements: (data.requirements ?? "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean)
+    }
+
     try {
       const res = await fetch('/api/jobs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       })
 
       if (!res.ok) {
@@ -185,6 +196,15 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
       <div className="space-y-1.5">
         <label className="text-sm font-medium">Notes</label>
         <Input placeholder="Notes (optional)" {...register('notes')} />
+      </div>
+
+      <div className='space-y-1.5'>
+        <label className="text-sm font-medium">Requirements</label>
+        <Textarea
+          className='h-40 max-h-40'
+          placeholder='Requirements...'
+          {...register('requirements')}
+        />
       </div>
 
       <Button type="submit" className="w-full" disabled={isLoading}>{isLoading ? 'Saving application...' : 'Save'}</Button>
