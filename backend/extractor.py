@@ -29,7 +29,7 @@ client = genai.Client()
 
 async def extract(text: str) -> ExtractResponse:
     resp = await client.aio.models.generate_content(
-        model='gemini-3.7-flash',
+        model='gemini-3.5-flash',
         contents=text,
         config=types.GenerateContentConfig(
             system_instruction=system_instruction,
