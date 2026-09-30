@@ -1,6 +1,7 @@
-from fastapi import FastAPI
-from pydantic import BaseModel, Field, field_validator
-
+from fastapi import FastAPI, HTTPException
+from backend.schemas import ExtractRequest, ExtractResponse, HealthResponse
+from google.genai import errors
+from backend.extractor import extract
 
 app = FastAPI()
 
@@ -8,36 +9,24 @@ app = FastAPI()
 def read_root():
     return {"message": "Job Tracker API"}
 
-class ExtractRequest(BaseModel):
-    text: str = Field(min_length=20, max_length=50_000)
-
-    @field_validator("text", mode="before")
-    @classmethod
-    def trim_text(cls, value: object) -> object: 
-        if isinstance(value, str):
-            value = value.strip()
-
-        return value
-
-class ExtractResponse(BaseModel):
-    company: str
-    role: str
-    salary: str | None = None
-    requirements: str | None = None
-    link: str | None = None
-
 @app.post("/extract")
 async def extract_job(payload: ExtractRequest) -> ExtractResponse:
+    try: 
+        return await extract(payload.text)
+    except errors.ServerError as e:
+        raise HTTPException(
+            status_code=503,
+            detail="Gemini is unavailable. Try again."
+        ) from e
+    except errors.ClientError as e:
+        if e.code == 429:
+            raise HTTPException(
+                status_code=429,
+                detail="Rate limit reached. Try again later."
+            ) from e
 
-    return ExtractResponse(
-        company="Stub Company",
-        role="Stub role",
-        link=None,
-        salary=None
-    )
+        raise
 
-class HealthResponse(BaseModel):
-    status: str
 
 @app.get("/health")
 def check_health() -> HealthResponse:
