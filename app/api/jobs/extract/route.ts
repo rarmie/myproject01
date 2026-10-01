@@ -17,7 +17,18 @@ export async function POST(req: NextRequest){
         )
     }
 
-    const body = await req.json()
+    let body: unknown
+
+    try{
+        body = await req.json()
+    } catch{
+        return NextResponse.json(
+            {error: 'Invalid JSON body.'},
+            {status: 400}
+        )
+    }
+
+    
     const parsed = extractSchema.safeParse(body)
 
     if (!parsed.success){
@@ -27,15 +38,41 @@ export async function POST(req: NextRequest){
         )
     }
 
-    const backendRes = await fetch(`${process.env.BACKEND_URL}/extract`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(parsed.data)
-    })
+    let backendRes: Response
+
+    try{
+        backendRes = await fetch(`${process.env.BACKEND_URL}/extract`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(parsed.data),
+            signal: AbortSignal.timeout(30_000)
+        })
+    } catch(err){
+        if (err instanceof Error && err.name === 'TimeoutError'){
+            return NextResponse.json(
+                {error: "The extraction took too long. Try again."},
+                {status: 504}
+            )
+        }
+
+        return NextResponse.json(
+            {error: "Extraction failed. Try again later."},
+            {status: 502}
+        )
+    }
+
+    
+
+    if (backendRes.status === 429 || backendRes.status === 503){
+        return NextResponse.json(
+            {error: 'Extraction failed. Try again later.'},
+            {status: backendRes.status}
+        )
+    }
 
     if (!backendRes.ok){
         return NextResponse.json(
-            {error: 'Extraction failed'},
+            {error: "Extraction failed. Try again later."},
             {status: 502}
         )
     }
