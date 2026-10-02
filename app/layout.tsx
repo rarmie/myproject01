@@ -1,20 +1,16 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
+// Inter for all text; Bricolage Grotesque for headings (h1-h3 and shadcn titles, via font-heading).
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
 });
 
@@ -39,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} h-full antialiased`}
+      className={`${inter.variable} ${bricolage.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
