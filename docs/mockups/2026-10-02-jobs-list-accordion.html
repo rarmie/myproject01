@@ -1,0 +1,90 @@
+<style>
+  .m{--bg:#fff;--muted:#f4f4f5;--line:#e4e4e7;--ink:#18181b;--sub:#71717a;--pri:#4f46e5;--acc:#eef2ff;
+     font:12px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;height:380px}
+  .m *{box-sizing:border-box}
+
+  /* The list is a fixed-height column. Headers never shrink, so they always stay visible.
+     Open groups start at their natural height and shrink to share whatever space is left;
+     each one then scrolls on its own. If even that doesn't fit, the whole list scrolls. */
+  .list{width:280px;border-right:1px solid var(--line);padding:6px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+  details{flex:0 0 auto;display:flex;flex-direction:column;min-height:0}
+  details[open]{flex:1 1 auto;min-height:4.25rem}
+  .body{overflow-y:auto;min-height:0;flex:1 1 auto}
+  details[open]::details-content{display:contents}
+
+  .det{flex:1;padding:16px 18px;color:var(--sub)}
+  summary{flex-shrink:0;list-style:none;display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:7px;cursor:pointer;user-select:none;
+    font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--sub);background:var(--bg)}
+  summary::-webkit-details-marker{display:none}
+  summary:hover{background:var(--muted)}
+  .chev{width:12px;height:12px;transition:transform .15s;flex-shrink:0}
+  details[open]>summary .chev{transform:rotate(90deg)}
+  .dot{width:6px;height:6px;border-radius:50%}
+  .cnt{margin-left:auto;font-weight:600;background:var(--muted);color:var(--sub);border-radius:999px;padding:0 7px;letter-spacing:0}
+  .row{display:flex;align-items:center;gap:8px;padding:6px 8px 6px 26px;border-radius:7px}
+  .row:hover{background:#f8f8fb}
+  .row.sel{background:var(--acc)}
+  .row.rej{opacity:.55}
+  .av{width:24px;height:24px;border-radius:6px;background:var(--muted);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;color:var(--ink)}
+  .sub{color:var(--sub)}.num{font-variant-numeric:tabular-nums}
+  .peek{display:flex;margin-left:6px}
+  .peek .av{width:16px;height:16px;font-size:9px;border-radius:4px;border:1.5px solid var(--bg);margin-left:-4px}
+  details[open] .peek{display:none}
+  .tools{display:flex;gap:8px;margin:0 0 10px}
+  .tools button{font:inherit;font-size:12px;padding:5px 10px;border-radius:7px;border:1px solid var(--border, #ddd);background:transparent;cursor:pointer;color:inherit}
+</style>
+
+<h2>Option B, revised: one group open at a time</h2>
+<p class="subtitle">Opening a group closes the one that was open. The five headers always stay visible, and the open group fills the space between them and scrolls if it has more rows than fit. It starts on the selected job's group.</p>
+
+
+<div class="m">
+  <div class="list" id="lst">
+    <details name="status-groups" open><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 6 6 6-6 6"/></svg><span class="dot" style="background:var(--pri)"></span>Applied<span class="peek"><span class="av">G</span><span class="av">M</span><span class="av">L</span></span><span class="cnt">8</span></summary>
+      <div class="body">
+        <div class="row sel"><div class="av">G</div><div><b>Google</b><div class="sub">Frontend Developer</div></div><span class="sub num" style="margin-left:auto">$120,000</span></div>
+        <div class="row"><div class="av">M</div><div><b>Meta</b><div class="sub">Junior Software Engineer</div></div></div>
+        <div class="row"><div class="av">L</div><div><b>Linear</b><div class="sub">Full-stack Dev</div></div><span class="sub num" style="margin-left:auto">$130,000</span></div>
+        <div class="row"><div class="av">V</div><div><b>Vercel</b><div class="sub">DX Engineer</div></div></div>
+        <div class="row"><div class="av">S</div><div><b>Stripe</b><div class="sub">Backend Engineer</div></div><span class="sub num" style="margin-left:auto">$150,000</span></div>
+        <div class="row"><div class="av">D</div><div><b>Datadog</b><div class="sub">Software Engineer</div></div></div>
+        <div class="row"><div class="av">A</div><div><b>Atlassian</b><div class="sub">Frontend Engineer</div></div></div>
+        <div class="row"><div class="av">C</div><div><b>Canva</b><div class="sub">React Developer</div></div><span class="sub num" style="margin-left:auto">$110,000</span></div>
+      </div>
+    </details>
+    <details name="status-groups"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 6 6 6-6 6"/></svg><span class="dot" style="background:#eab308"></span>Interview<span class="peek"><span class="av">M</span><span class="av">N</span><span class="av">F</span></span><span class="cnt">5</span></summary>
+      <div class="body">
+        <div class="row"><div class="av">M</div><div><b>Meta</b><div class="sub">React Engineer</div></div><span class="sub num" style="margin-left:auto">$130,000</span></div>
+        <div class="row"><div class="av">N</div><div><b>Notion</b><div class="sub">Software Engineer</div></div><span class="sub num" style="margin-left:auto">$140,000</span></div>
+        <div class="row"><div class="av">F</div><div><b>Figma</b><div class="sub">Frontend Engineer</div></div></div>
+        <div class="row"><div class="av">S</div><div><b>Shopify</b><div class="sub">Developer</div></div></div>
+        <div class="row"><div class="av">R</div><div><b>Ramp</b><div class="sub">Full Stack Engineer</div></div><span class="sub num" style="margin-left:auto">$145,000</span></div>
+      </div>
+    </details>
+    <details name="status-groups"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 6 6 6-6 6"/></svg><span class="dot" style="background:#22c55e"></span>Offer<span class="peek"><span class="av">S</span><span class="av">S</span></span><span class="cnt">2</span></summary>
+      <div class="body">
+        <div class="row"><div class="av">S</div><div><b>Spotify</b><div class="sub">Full Stack Developer</div></div><span class="sub num" style="margin-left:auto">$115,000</span></div>
+        <div class="row"><div class="av">S</div><div><b>Samsung</b><div class="sub">Software Engineer</div></div></div>
+      </div>
+    </details>
+    <details name="status-groups"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 6 6 6-6 6"/></svg><span class="dot" style="background:#a1a1aa"></span>Wishlist<span class="peek"><span class="av">N</span><span class="av">O</span><span class="av">P</span></span><span class="cnt">6</span></summary>
+      <div class="body">
+        <div class="row"><div class="av">N</div><div><b>Netflix</b><div class="sub">UI Engineer</div></div><span class="sub num" style="margin-left:auto">$140,000</span></div>
+        <div class="row"><div class="av">O</div><div><b>OpenAI</b><div class="sub">Applied Engineer</div></div></div>
+        <div class="row"><div class="av">P</div><div><b>Plaid</b><div class="sub">Software Engineer</div></div></div>
+        <div class="row"><div class="av">A</div><div><b>Airbnb</b><div class="sub">Frontend Engineer</div></div></div>
+        <div class="row"><div class="av">D</div><div><b>Discord</b><div class="sub">Backend Engineer</div></div></div>
+        <div class="row"><div class="av">G</div><div><b>GitHub</b><div class="sub">Developer Advocate</div></div></div>
+      </div>
+    </details>
+    <details name="status-groups"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 6 6 6-6 6"/></svg><span class="dot" style="background:#ef4444"></span>Rejected<span class="peek"><span class="av">A</span><span class="av">U</span><span class="av">T</span></span><span class="cnt">4</span></summary>
+      <div class="body">
+        <div class="row rej"><div class="av">A</div><div><b>Apple</b><div class="sub">Software Engineer</div></div><span class="sub num" style="margin-left:auto">$125,000</span></div>
+        <div class="row rej"><div class="av">U</div><div><b>Uber</b><div class="sub">Mobile Engineer</div></div></div>
+        <div class="row rej"><div class="av">T</div><div><b>Twilio</b><div class="sub">Software Engineer</div></div></div>
+        <div class="row rej"><div class="av">A</div><div><b>Amazon</b><div class="sub">SDE I</div></div></div>
+      </div>
+    </details>
+  </div>
+  <div class="det"><b style="color:var(--ink);font-size:15px">Google</b><br>Frontend Developer<p style="font-size:11px">(detail pane unchanged)</p></div>
+</div>

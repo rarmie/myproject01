@@ -10,7 +10,6 @@ export const config = {
   matcher: [
     '/dashboard/:path*',
     '/jobs/:path*',
-    '/documents/:path*',
     '/api/jobs/:path*'
   ],
 }

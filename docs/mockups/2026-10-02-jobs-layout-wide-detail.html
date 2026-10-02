@@ -1,0 +1,87 @@
+<style>
+  .m{--bg:#fff;--card:#fff;--muted:#f4f4f5;--line:#e4e4e7;--ink:#18181b;--sub:#71717a;--pri:#4f46e5;--acc:#eef2ff;
+     font:12px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#fafafa;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .m *{box-sizing:border-box}
+  .top{display:flex;align-items:center;gap:18px;padding:9px 16px;border-bottom:1px solid var(--line);background:var(--bg)}
+  .top b{font-size:13px}.top span{color:var(--sub)}.top .on{color:var(--ink);font-weight:600}
+  .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px}
+  .bar h4{margin:0;font-size:15px}.bar small{color:var(--sub)}
+  .search{display:flex;gap:6px}.search i{display:block;width:160px;height:26px;border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+  .search i.s{width:90px}.btn{height:26px;padding:0 10px;border-radius:6px;background:var(--pri);color:#fff;display:flex;align-items:center;font-weight:600}
+  .grp{display:flex;align-items:center;gap:6px;padding:8px 10px 4px;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--sub);text-transform:uppercase}
+  .dot{width:6px;height:6px;border-radius:50%}
+  .av{width:24px;height:24px;border-radius:6px;background:var(--muted);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+  .av.lg{width:38px;height:38px;font-size:15px;border-radius:9px}
+  .badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:999px;white-space:nowrap}
+  .b-app{background:var(--acc);color:var(--pri)}.b-int{background:#fef9c3;color:#854d0e}.b-off{background:#dcfce7;color:#166534}.b-wish{background:var(--muted);color:var(--sub)}.b-rej{background:#fee2e2;color:#991b1b}
+  .sub{color:var(--sub)}.num{font-variant-numeric:tabular-nums}
+  .pipe{display:flex;gap:4px;margin:12px 0}.pipe i{flex:1;height:4px;border-radius:2px;background:var(--line)}.pipe i.d{background:var(--pri)}
+  .fact{border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:var(--card)}
+  .fact .l,.lbl{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--sub)}
+  .fact .v{font-weight:600;margin-top:2px}
+  .box{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--card)}
+  .chip{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--muted);margin:0 4px 4px 0;font-size:11px}
+  .row{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:7px}
+  .row.sel{background:var(--acc)}.row.rej{opacity:.55}
+  table{width:100%;border-collapse:collapse}
+  th{font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--sub);text-align:left;font-weight:700;padding:7px 10px;border-bottom:1px solid var(--line);background:var(--bg)}
+  td{padding:7px 10px;border-bottom:1px solid var(--line);background:var(--bg)}
+  tr.sel td{background:var(--acc)}
+  .over{color:#b91c1c;font-weight:600}
+  .stack>*+*{margin-top:10px}
+</style>
+<h2>/jobs layout, chosen 2 Oct 2026: wide list + wide detail</h2>
+<p class="subtitle">Chosen over a full-width table with a drawer (B) and a three-pane status rail (C). The selected job lives in the URL as <code>/jobs?job=&lt;id&gt;</code>. See docs/adr/0001-url-driven-job-detail.md.</p>
+<div class="options" style="display:block">
+<!-- ========== A ========== -->
+<div class="options" style="display:block">
+<div class="option" data-choice="a" onclick="toggleSelect(this)" style="display:block">
+  <div style="display:flex;gap:10px;align-items:baseline;margin-bottom:10px"><div class="letter">A</div>
+    <div class="content"><h3 style="margin:0">Wide list + wide detail (two columns inside the detail)</h3>
+    <p style="margin:2px 0 0">Today's board, but the detail pane fills the rest of the screen and splits into two columns instead of stopping at ~670px.</p></div></div>
+
+  <div class="m">
+    <div class="top"><b>WorkSpace</b><span>Dashboard</span><span class="on">Jobs</span></div>
+    <div class="bar"><div><h4>Job Applications</h4><small>14 applications</small></div><div class="search"><i></i><i class="s"></i><div class="btn">+ Add job</div></div></div>
+    <div style="display:flex;border-top:1px solid var(--line);background:var(--bg);min-height:330px">
+      <div style="width:270px;border-right:1px solid var(--line);padding:4px 6px">
+        <div class="grp"><span class="dot" style="background:var(--pri)"></span>Applied<span style="margin-left:auto">3</span></div>
+        <div class="row sel"><div class="av">S</div><div><b>Stripe</b><div class="sub">Backend Engineer</div></div><span class="sub num" style="margin-left:auto">$150k</span></div>
+        <div class="row"><div class="av">L</div><div><b>Linear</b><div class="sub">Full-stack Dev</div></div></div>
+        <div class="row"><div class="av">V</div><div><b>Vercel</b><div class="sub">DX Engineer</div></div></div>
+        <div class="grp"><span class="dot" style="background:#eab308"></span>Interview<span style="margin-left:auto">2</span></div>
+        <div class="row"><div class="av">N</div><div><b>Notion</b><div class="sub">Software Engineer</div></div></div>
+        <div class="row"><div class="av">F</div><div><b>Figma</b><div class="sub">Frontend Eng</div></div></div>
+        <div class="grp"><span class="dot" style="background:#ef4444"></span>Rejected<span style="margin-left:auto">1</span></div>
+        <div class="row rej"><div class="av">A</div><div><b>Acme</b><div class="sub">Python Dev</div></div></div>
+      </div>
+      <div style="flex:1;padding:14px 18px">
+        <div style="display:flex;align-items:center;gap:10px"><div class="av lg">S</div><div><b style="font-size:15px">Stripe</b><div class="sub">Backend Engineer</div></div>
+          <span class="badge b-app" style="margin-left:auto">Applied</span><span class="sub">Edit · Delete</span></div>
+        <div class="pipe"><i class="d"></i><i class="d"></i><i></i><i></i></div>
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:14px">
+          <div class="stack">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+              <div class="fact"><div class="l">Salary</div><div class="v">$150k</div></div>
+              <div class="fact"><div class="l">Applied</div><div class="v">Sep 28</div></div>
+              <div class="fact"><div class="l">Next action</div><div class="v">Oct 6</div></div>
+            </div>
+            <div class="fact"><div class="l">Link</div><div class="v" style="color:var(--pri)">stripe.com/jobs/backend-eng</div></div>
+            <div><div class="lbl" style="margin-bottom:4px">Notes</div><div class="box">Referred by Sam. Recruiter call went well, asked about Go experience.</div></div>
+          </div>
+          <div class="stack">
+            <div><div class="lbl" style="margin-bottom:4px">Requirements</div><div class="box"><span class="chip">Go or Java</span><span class="chip">Postgres</span><span class="chip">4+ yrs</span><span class="chip">Distributed systems</span><span class="chip">AWS</span></div></div>
+            <div><div class="lbl" style="margin-bottom:4px">Contacts</div><div class="box">Sam Lee — sam@stripe.com</div></div>
+            <div><div class="lbl" style="margin-bottom:4px">Documents</div><div class="box" style="color:var(--pri)">Resume v3 · Cover letter</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons" style="margin-top:10px">
+    <div class="pros"><h4>Pros</h4><ul><li>Smallest change: it's the board you already have, stretched</li><li>Everything about a job is visible without scrolling</li><li>Room for the AI panels later (match score, cover letter)</li></ul></div>
+    <div class="cons"><h4>Cons</h4><ul><li>The list stays narrow, so it only shows company, role and salary</li><li>You can't compare jobs side by side (dates, next actions)</li></ul></div>
+  </div>
+</div>
+
+</div>
