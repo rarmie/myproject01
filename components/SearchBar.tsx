@@ -1,6 +1,5 @@
 'use client'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
@@ -14,13 +13,8 @@ export default function SearchBar() {
     const params = new URLSearchParams(searchParams.toString())
     if (value) params.set('search', value)
     else params.delete('search')
-    router.push(`/jobs?${params.toString()}`)
-  }
-
-  const handleStatus = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (value !== 'ALL') params.set('status', value)
-    else params.delete('status')
+    // A new search selects the new top row, not a job the search may now hide.
+    params.delete('job')
     router.push(`/jobs?${params.toString()}`)
   }
 
@@ -32,15 +26,6 @@ export default function SearchBar() {
         onChange={(e) => handleSearch(e.target.value)}
         className="max-w-sm"
       />
-      <Select onValueChange={handleStatus} defaultValue="ALL">
-        <SelectTrigger className="w-40"><SelectValue placeholder="Filter status" /></SelectTrigger>
-        <SelectContent>
-          <SelectItem value="ALL">All</SelectItem>
-          {['WISHLIST', 'APPLIED', 'INTERVIEW', 'OFFER', 'REJECTED'].map((s) => (
-            <SelectItem key={s} value={s}>{s}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
     </div>
   )
 }
