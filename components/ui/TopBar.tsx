@@ -13,7 +13,6 @@ import ThemeToggle from "./ThemeToggle";
 const NAV_ITEMS = [
   { name: 'Dashboard', href: '/dashboard' },
   { name: 'Jobs', href: '/jobs' },
-  { name: 'Documents', href: '/documents' },
 ]
 
 export default function TopBar() {
