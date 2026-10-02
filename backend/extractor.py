@@ -3,7 +3,8 @@ from google.genai import types
 from dotenv import load_dotenv
 from backend.schemas import ExtractResponse
 from pathlib import Path
-
+import logging
+import time
 
 system_instruction = """Extract the requested information from the provided job posting.
 
@@ -26,8 +27,10 @@ Return the information using the provided schema."""
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 client = genai.Client()
+logger = logging.getLogger(__name__)
 
 async def extract(text: str) -> ExtractResponse:
+    start = time.perf_counter()
     resp = await client.aio.models.generate_content(
         model='gemini-3.5-flash',
         contents=text,
@@ -37,8 +40,20 @@ async def extract(text: str) -> ExtractResponse:
             response_mime_type="application/json",
             response_schema=ExtractResponse,
             thinking_config=types.ThinkingConfig(thinking_budget=0),
-            seed=42
+            seed=42,
+            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
         )
     )
+    finish_reason = resp.candidates[0].finish_reason if resp.candidates else None
+
+    usage = resp.usage_metadata
+    tokens = {
+        "prompt_tokens": usage.prompt_token_count or 0,
+        "output_tokens": usage.candidates_token_count or 0,
+        "thoughts_tokens": usage.thoughts_token_count or 0
+    }
+
+    elapsed = time.perf_counter() - start
+    logger.info("input_len=%d time_taken=%.2f stopped_reason=%s tokens_in=%d tokens_out=%d think_tokens=%d", len(text), elapsed, finish_reason, tokens['prompt_tokens'], tokens['output_tokens'], tokens['thoughts_tokens'])
 
     return ExtractResponse.model_validate_json(resp.text)

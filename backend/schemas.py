@@ -28,7 +28,7 @@ class ExtractResponse(BaseModel):
         description="The salary or compensation offered for the position, preserving the amount, currency, and pay period exactly as stated."
     )
     notes: str | None = Field(
-        default="None",
+        default=None,
         description="Extra information that may be useful to job applicant."
     )
     requirements: list[str] | None = Field(
