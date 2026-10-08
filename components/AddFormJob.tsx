@@ -138,14 +138,14 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
           <div>
             <label htmlFor="add-paste" className="text-sm font-semibold">Autofill from a job posting</label>
             <p className="text-xs text-muted-foreground">
-              Paste the posting text and we&apos;ll pull out the company, role, salary and requirements.
+              Paste the posting text or link and we&apos;ll pull out the company, role, salary and requirements.
             </p>
           </div>
         </div>
         <Textarea
           id="add-paste"
           className='h-20 max-h-20 bg-background'
-          placeholder="Paste the job description here..."
+          placeholder="Paste the job description or link here..."
           value={pasteText}
           onChange={(e) => setPasteText(e.target.value)}
           rows={4}
