@@ -126,25 +126,27 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
       <div className="space-y-1.5">
         <label className="text-sm font-medium">Paste a job posting (optional)</label>
         <Textarea
-          className='h-40 max-h-40'
+          className='h-24 max-h-24'
           placeholder="Paste the job description here..."
           value={pasteText}
           onChange={(e) => setPasteText(e.target.value)}
           rows={4}
         />
-        
-        <p className="text-xs text-muted-foreground">
-          {setHint()}
-        </p>
-        <Button
-          type="button"
-          variant="outline"
-          className="w-full"
-          disabled={isExtracting || trimmedPastedText < 20 || trimmedPastedText > 50_000}
-          onClick={handleExtract}
-        >
-          {isExtracting ? 'Extracting...' : 'Extract details'}
-        </Button>
+
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs text-muted-foreground">
+            {setHint()}
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={isExtracting || trimmedPastedText < 20 || trimmedPastedText > 50_000}
+            onClick={handleExtract}
+          >
+            {isExtracting ? 'Extracting...' : 'Extract details'}
+          </Button>
+        </div>
         {extractError && (
           <p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">
             {extractError}
@@ -158,6 +160,7 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
         </p>
       )}
 
+      <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
       <div className="space-y-1.5">
         <label className="text-sm font-medium">Company</label>
         <Input placeholder="Company" {...register('company')} />
@@ -183,31 +186,34 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
       </div>
 
       <div className="space-y-1.5">
+        <label className="text-sm font-medium">Salary</label>
+        <Input placeholder="Salary (optional)" {...register('salary')} />
+      </div>
+
+      <div className="space-y-1.5 sm:col-span-2">
         <label className="text-sm font-medium">Job link</label>
         <Input placeholder="https://... (optional)" {...register('link')} />
         {errors.link && <p className="text-red-500 text-sm">{errors.link.message}</p>}
       </div>
 
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium">Salary</label>
-        <Input placeholder="Salary (optional)" {...register('salary')} />
-      </div>
-
-      <div className="space-y-1.5">
+      <div className="space-y-1.5 sm:col-span-2">
         <label className="text-sm font-medium">Notes</label>
         <Input placeholder="Notes (optional)" {...register('notes')} />
       </div>
 
-      <div className='space-y-1.5'>
+      <div className='space-y-1.5 sm:col-span-2'>
         <label className="text-sm font-medium">Requirements</label>
         <Textarea
-          className='h-40 max-h-40'
+          className='h-28 max-h-28'
           placeholder='Requirements...'
           {...register('requirements')}
         />
       </div>
+      </div>
 
-      <Button type="submit" className="w-full" disabled={isLoading}>{isLoading ? 'Saving application...' : 'Save'}</Button>
+      <div className="flex justify-end">
+        <Button type="submit" className="w-full sm:w-auto" disabled={isLoading}>{isLoading ? 'Saving application...' : 'Save'}</Button>
+      </div>
     </form>
   )
 }

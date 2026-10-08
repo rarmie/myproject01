@@ -57,7 +57,7 @@ export default function TopBar() {
             <Plus className="size-4" /> <span className="hidden sm:inline">Add Application</span>
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add New Job</DialogTitle>
           </DialogHeader>

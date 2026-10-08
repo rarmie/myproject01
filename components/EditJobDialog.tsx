@@ -53,7 +53,7 @@ export default function EditJobDialog({ job }: { job: EditableJob }) {
           <Pencil /> Edit
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit {job.company}</DialogTitle>
         </DialogHeader>
@@ -128,14 +128,14 @@ function EditJobForm({ job, onClose }: { job: EditableJob; onClose: () => void }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-h-[70vh] overflow-y-auto px-1">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {error && (
         <p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">
           {error}
         </p>
       )}
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <label className="text-sm font-medium" htmlFor="edit-company">Company</label>
           <Input id="edit-company" {...register('company')} />
@@ -146,9 +146,7 @@ function EditJobForm({ job, onClose }: { job: EditableJob; onClose: () => void }
           <Input id="edit-role" {...register('role')} />
           {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
         </div>
-      </div>
 
-      <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
           <label className="text-sm font-medium">Status</label>
           <Select
@@ -168,37 +166,38 @@ function EditJobForm({ job, onClose }: { job: EditableJob; onClose: () => void }
           <Input id="edit-applied" type="date" {...register('appliedAt')} />
           {errors.appliedAt && <p className="text-red-500 text-sm">{errors.appliedAt.message}</p>}
         </div>
+
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium" htmlFor="edit-salary">Salary</label>
+          <Input id="edit-salary" placeholder="Salary (optional)" {...register('salary')} />
+        </div>
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium" htmlFor="edit-link">Job link</label>
+          <Input id="edit-link" placeholder="https://... (optional)" {...register('link')} />
+          {errors.link && <p className="text-red-500 text-sm">{errors.link.message}</p>}
+        </div>
+
+        <div className="space-y-1.5 sm:col-span-2">
+          <label className="text-sm font-medium" htmlFor="edit-notes">Notes</label>
+          <Textarea id="edit-notes" className="h-20 max-h-20" placeholder="Notes (optional)" {...register('notes')} />
+        </div>
+
+        <div className="space-y-1.5 sm:col-span-2">
+          <label className="text-sm font-medium" htmlFor="edit-requirements">Requirements</label>
+          <Textarea
+            id="edit-requirements"
+            className="h-28 max-h-28"
+            placeholder="One per line"
+            {...register('requirements')}
+          />
+        </div>
       </div>
 
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium" htmlFor="edit-link">Job link</label>
-        <Input id="edit-link" placeholder="https://... (optional)" {...register('link')} />
-        {errors.link && <p className="text-red-500 text-sm">{errors.link.message}</p>}
+      <div className="flex justify-end">
+        <Button type="submit" className="w-full sm:w-auto" disabled={isLoading}>
+          {isLoading ? 'Saving...' : 'Save changes'}
+        </Button>
       </div>
-
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium" htmlFor="edit-salary">Salary</label>
-        <Input id="edit-salary" placeholder="Salary (optional)" {...register('salary')} />
-      </div>
-
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium" htmlFor="edit-notes">Notes</label>
-        <Textarea id="edit-notes" className="h-24 max-h-24" placeholder="Notes (optional)" {...register('notes')} />
-      </div>
-
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium" htmlFor="edit-requirements">Requirements</label>
-        <Textarea
-          id="edit-requirements"
-          className="h-32 max-h-32"
-          placeholder="One per line"
-          {...register('requirements')}
-        />
-      </div>
-
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? 'Saving...' : 'Save changes'}
-      </Button>
     </form>
   )
 }
