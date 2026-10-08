@@ -63,7 +63,12 @@ export default function EditJobDialog({ job }: { job: EditableJob }) {
           <Pencil /> Edit
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+      {/* A stray click on the backdrop would throw away unsaved edits, so only Cancel, the X
+          and Escape close it. */}
+      <DialogContent
+        className="sm:max-w-2xl max-h-[90vh] overflow-y-auto"
+        onInteractOutside={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">Edit {job.company}</DialogTitle>
           <DialogDescription>Update the details of this application.</DialogDescription>

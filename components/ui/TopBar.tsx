@@ -58,7 +58,12 @@ export default function TopBar() {
             <Plus className="size-4" /> <span className="hidden sm:inline">Add Application</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+        {/* A stray click on the backdrop would throw away a half-filled form, so only
+            Cancel, the X and Escape close it. */}
+        <DialogContent
+          className="sm:max-w-2xl max-h-[90vh] overflow-y-auto"
+          onInteractOutside={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle className="text-lg font-bold">Add application</DialogTitle>
             <DialogDescription>Fill in the details, or paste a posting to fill them for you.</DialogDescription>
