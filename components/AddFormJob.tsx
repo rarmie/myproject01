@@ -7,8 +7,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { DialogClose, DialogFooter } from '@/components/ui/dialog'
+import FormField from '@/components/FormField'
 import { useRouter } from 'next/navigation'
-import { X } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
+import { ApplicationStatus } from '@/lib/generated/prisma/enums'
+import { PIPELINE_ORDER, STATUS_DOT, STATUS_LABEL } from '@/lib/job-status'
+
+const STATUS_OPTIONS: ApplicationStatus[] = [...PIPELINE_ORDER, 'REJECTED']
 
 const jobSchema = z.object({
   company: z.string().min(1, 'Company is required'),
@@ -123,16 +129,27 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium">Paste a job posting (optional)</label>
+      {/* AI autofill: its own dashed panel, so it reads as optional and separate from the fields. */}
+      <div className="rounded-xl border border-dashed border-input bg-muted/40 p-3 space-y-2.5">
+        <div className="flex items-start gap-2.5">
+          <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+            <Sparkles className="size-4" />
+          </span>
+          <div>
+            <label htmlFor="add-paste" className="text-sm font-semibold">Autofill from a job posting</label>
+            <p className="text-xs text-muted-foreground">
+              Paste the posting text and we&apos;ll pull out the company, role, salary and requirements.
+            </p>
+          </div>
+        </div>
         <Textarea
-          className='h-24 max-h-24'
+          id="add-paste"
+          className='h-20 max-h-20 bg-background'
           placeholder="Paste the job description here..."
           value={pasteText}
           onChange={(e) => setPasteText(e.target.value)}
           rows={4}
         />
-
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
             {setHint()}
@@ -153,67 +170,84 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
           </p>
         )}
       </div>
-      
+
       {error && (
         <p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">
           {error}
         </p>
       )}
 
+      <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Details</div>
+
       <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium">Company</label>
-        <Input placeholder="Company" {...register('company')} />
-        {errors.company && <p className="text-red-500 text-sm">{errors.company.message}</p>}
+        <FormField id="add-company" label="Company" required error={errors.company?.message}>
+          <Input
+            id="add-company"
+            placeholder="e.g. Stripe"
+            aria-invalid={!!errors.company}
+            aria-describedby={errors.company ? 'add-company-error' : undefined}
+            {...register('company')}
+          />
+        </FormField>
+
+        <FormField id="add-role" label="Role" required error={errors.role?.message}>
+          <Input
+            id="add-role"
+            placeholder="e.g. Backend Engineer"
+            aria-invalid={!!errors.role}
+            aria-describedby={errors.role ? 'add-role-error' : undefined}
+            {...register('role')}
+          />
+        </FormField>
+
+        <FormField id="add-status" label="Status">
+          <Select onValueChange={(val) => setValue('status', val as JobFormData['status'])} defaultValue="APPLIED">
+            <SelectTrigger id="add-status" className="w-full"><SelectValue placeholder="Status" /></SelectTrigger>
+            <SelectContent>
+              {STATUS_OPTIONS.map((s) => (
+                <SelectItem key={s} value={s}>
+                  <span className={`size-2 shrink-0 rounded-full ${STATUS_DOT[s]}`} />
+                  {STATUS_LABEL[s]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FormField>
+
+        <FormField id="add-salary" label="Salary" optional>
+          <Input id="add-salary" placeholder="e.g. $120k – $150k" {...register('salary')} />
+        </FormField>
+
+        <FormField id="add-link" label="Job link" optional error={errors.link?.message} className="sm:col-span-2">
+          <Input
+            id="add-link"
+            placeholder="https://..."
+            aria-invalid={!!errors.link}
+            aria-describedby={errors.link ? 'add-link-error' : undefined}
+            {...register('link')}
+          />
+        </FormField>
+
+        <FormField id="add-notes" label="Notes" optional className="sm:col-span-2">
+          <Input id="add-notes" placeholder="Referral, recruiter name, anything to remember" {...register('notes')} />
+        </FormField>
+
+        <FormField id="add-requirements" label="Requirements" optional hint="One per line." className="sm:col-span-2">
+          <Textarea
+            id="add-requirements"
+            className='h-28 max-h-28'
+            placeholder={'Go or Java\nPostgreSQL'}
+            {...register('requirements')}
+          />
+        </FormField>
       </div>
 
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium">Role</label>
-        <Input placeholder="Role" {...register('role')} />
-        {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
-      </div>
-
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium">Status</label>
-        <Select onValueChange={(val) => setValue('status', val as JobFormData['status'])} defaultValue="APPLIED">
-          <SelectTrigger className="w-full"><SelectValue placeholder="Status" /></SelectTrigger>
-          <SelectContent>
-            {['WISHLIST', 'APPLIED', 'INTERVIEW', 'OFFER', 'REJECTED'].map((s) => (
-              <SelectItem key={s} value={s}>{s}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium">Salary</label>
-        <Input placeholder="Salary (optional)" {...register('salary')} />
-      </div>
-
-      <div className="space-y-1.5 sm:col-span-2">
-        <label className="text-sm font-medium">Job link</label>
-        <Input placeholder="https://... (optional)" {...register('link')} />
-        {errors.link && <p className="text-red-500 text-sm">{errors.link.message}</p>}
-      </div>
-
-      <div className="space-y-1.5 sm:col-span-2">
-        <label className="text-sm font-medium">Notes</label>
-        <Input placeholder="Notes (optional)" {...register('notes')} />
-      </div>
-
-      <div className='space-y-1.5 sm:col-span-2'>
-        <label className="text-sm font-medium">Requirements</label>
-        <Textarea
-          className='h-28 max-h-28'
-          placeholder='Requirements...'
-          {...register('requirements')}
-        />
-      </div>
-      </div>
-
-      <div className="flex justify-end">
-        <Button type="submit" className="w-full sm:w-auto" disabled={isLoading}>{isLoading ? 'Saving application...' : 'Save'}</Button>
-      </div>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button type="button" variant="ghost">Cancel</Button>
+        </DialogClose>
+        <Button type="submit" disabled={isLoading}>{isLoading ? 'Saving...' : 'Save application'}</Button>
+      </DialogFooter>
     </form>
   )
 }

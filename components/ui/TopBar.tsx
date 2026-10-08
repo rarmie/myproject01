@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation"
 import { useState } from "react";
 import { Button } from "./button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import AddJobForm from "../AddFormJob";
 import SendConcernForm from '@/components/ui/SendConcernsForm'
 import LogoutButton from "../LogoutButton";
@@ -60,7 +60,8 @@ export default function TopBar() {
         </DialogTrigger>
         <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Add New Job</DialogTitle>
+            <DialogTitle className="text-lg font-bold">Add application</DialogTitle>
+            <DialogDescription>Fill in the details, or paste a posting to fill them for you.</DialogDescription>
           </DialogHeader>
           <AddJobForm onClose={() => setAddJobOpen(false)} />
         </DialogContent>

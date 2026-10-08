@@ -8,10 +8,20 @@ import { Pencil } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import FormField from '@/components/FormField'
 import { ApplicationStatus } from '@/lib/generated/prisma/enums'
-import { PIPELINE_ORDER, STATUS_LABEL } from '@/lib/job-status'
+import { PIPELINE_ORDER, STATUS_DOT, STATUS_LABEL } from '@/lib/job-status'
 import { messageFromResponse } from '@/lib/api-error'
 
 const STATUS_OPTIONS: ApplicationStatus[] = [...PIPELINE_ORDER, 'REJECTED']
@@ -55,7 +65,8 @@ export default function EditJobDialog({ job }: { job: EditableJob }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit {job.company}</DialogTitle>
+          <DialogTitle className="text-lg font-bold">Edit {job.company}</DialogTitle>
+          <DialogDescription>Update the details of this application.</DialogDescription>
         </DialogHeader>
         {/* DialogContent unmounts when closed, so each open re-seeds the form from fresh props. */}
         <EditJobForm job={job} onClose={() => setOpen(false)} />
@@ -136,68 +147,91 @@ function EditJobForm({ job, onClose }: { job: EditableJob; onClose: () => void }
       )}
 
       <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium" htmlFor="edit-company">Company</label>
-          <Input id="edit-company" {...register('company')} />
-          {errors.company && <p className="text-red-500 text-sm">{errors.company.message}</p>}
-        </div>
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium" htmlFor="edit-role">Role</label>
-          <Input id="edit-role" {...register('role')} />
-          {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
-        </div>
+        <FormField id="edit-company" label="Company" required error={errors.company?.message}>
+          <Input
+            id="edit-company"
+            placeholder="e.g. Stripe"
+            aria-invalid={!!errors.company}
+            aria-describedby={errors.company ? 'edit-company-error' : undefined}
+            {...register('company')}
+          />
+        </FormField>
+        <FormField id="edit-role" label="Role" required error={errors.role?.message}>
+          <Input
+            id="edit-role"
+            placeholder="e.g. Backend Engineer"
+            aria-invalid={!!errors.role}
+            aria-describedby={errors.role ? 'edit-role-error' : undefined}
+            {...register('role')}
+          />
+        </FormField>
 
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium">Status</label>
+        <FormField id="edit-status" label="Status">
           <Select
             defaultValue={job.status}
             onValueChange={(val) => setValue('status', val as EditFormData['status'])}
           >
-            <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+            <SelectTrigger id="edit-status" className="w-full"><SelectValue /></SelectTrigger>
             <SelectContent>
               {STATUS_OPTIONS.map((s) => (
-                <SelectItem key={s} value={s}>{STATUS_LABEL[s]}</SelectItem>
+                <SelectItem key={s} value={s}>
+                  <span className={`size-2 shrink-0 rounded-full ${STATUS_DOT[s]}`} />
+                  {STATUS_LABEL[s]}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
-        </div>
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium" htmlFor="edit-applied">Applied</label>
-          <Input id="edit-applied" type="date" {...register('appliedAt')} />
-          {errors.appliedAt && <p className="text-red-500 text-sm">{errors.appliedAt.message}</p>}
-        </div>
+        </FormField>
+        <FormField id="edit-applied" label="Applied" required error={errors.appliedAt?.message}>
+          <Input
+            id="edit-applied"
+            type="date"
+            aria-invalid={!!errors.appliedAt}
+            aria-describedby={errors.appliedAt ? 'edit-applied-error' : undefined}
+            {...register('appliedAt')}
+          />
+        </FormField>
 
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium" htmlFor="edit-salary">Salary</label>
-          <Input id="edit-salary" placeholder="Salary (optional)" {...register('salary')} />
-        </div>
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium" htmlFor="edit-link">Job link</label>
-          <Input id="edit-link" placeholder="https://... (optional)" {...register('link')} />
-          {errors.link && <p className="text-red-500 text-sm">{errors.link.message}</p>}
-        </div>
+        <FormField id="edit-salary" label="Salary" optional>
+          <Input id="edit-salary" placeholder="e.g. $120k – $150k" {...register('salary')} />
+        </FormField>
+        <FormField id="edit-link" label="Job link" optional error={errors.link?.message}>
+          <Input
+            id="edit-link"
+            placeholder="https://..."
+            aria-invalid={!!errors.link}
+            aria-describedby={errors.link ? 'edit-link-error' : undefined}
+            {...register('link')}
+          />
+        </FormField>
 
-        <div className="space-y-1.5 sm:col-span-2">
-          <label className="text-sm font-medium" htmlFor="edit-notes">Notes</label>
-          <Textarea id="edit-notes" className="h-20 max-h-20" placeholder="Notes (optional)" {...register('notes')} />
-        </div>
+        <FormField id="edit-notes" label="Notes" optional className="sm:col-span-2">
+          <Textarea
+            id="edit-notes"
+            className="h-20 max-h-20"
+            placeholder="Referral, recruiter name, anything to remember"
+            {...register('notes')}
+          />
+        </FormField>
 
-        <div className="space-y-1.5 sm:col-span-2">
-          <label className="text-sm font-medium" htmlFor="edit-requirements">Requirements</label>
+        <FormField id="edit-requirements" label="Requirements" optional hint="One per line." className="sm:col-span-2">
           <Textarea
             id="edit-requirements"
             className="h-28 max-h-28"
-            placeholder="One per line"
+            placeholder={'Go or Java\nPostgreSQL'}
             {...register('requirements')}
           />
-        </div>
+        </FormField>
       </div>
 
-      <div className="flex justify-end">
-        <Button type="submit" className="w-full sm:w-auto" disabled={isLoading}>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button type="button" variant="ghost">Cancel</Button>
+        </DialogClose>
+        <Button type="submit" disabled={isLoading}>
           {isLoading ? 'Saving...' : 'Save changes'}
         </Button>
-      </div>
+      </DialogFooter>
     </form>
   )
 }
