@@ -80,7 +80,8 @@ export default function TopBar() {
             <CircleQuestionMark className="size-4" />
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        {/* Same as the job dialogs: a backdrop click won't discard a half-written message. */}
+        <DialogContent onInteractOutside={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>Send us your concerns</DialogTitle>
           </DialogHeader>
