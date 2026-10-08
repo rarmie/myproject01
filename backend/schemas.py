@@ -1,10 +1,12 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, HttpUrl, model_validator
+from typing import Self
 
 class HealthResponse(BaseModel):
     status: str
 
 class ExtractRequest(BaseModel):
-    text: str = Field(min_length=20, max_length=50_000)
+    text: str | None = Field(default=None, min_length=20, max_length=50_000)
+    url: HttpUrl | None = None
 
     @field_validator("text", mode="before")
     @classmethod
@@ -13,6 +15,15 @@ class ExtractRequest(BaseModel):
             value = value.strip()
 
         return value
+    
+    @model_validator(mode="after")
+    def check_value(self) -> Self:
+        if self.text is None and self.url is None:
+            raise ValueError("Send either text or url.")
+        elif self.text is not None and self.url is not None:
+            raise ValueError("Send either text or url, not both.")
+
+        return self
 
 class ExtractResponse(BaseModel):
     company: str | None = Field(
