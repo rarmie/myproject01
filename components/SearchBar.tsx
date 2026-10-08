@@ -19,12 +19,12 @@ export default function SearchBar() {
   }
 
   return (
-    <div className="flex gap-3 mb-6">
+    <div className="flex gap-3 w-full sm:w-72">
       <Input
         placeholder="Search by company..."
         value={search}
         onChange={(e) => handleSearch(e.target.value)}
-        className="max-w-sm"
+        className="bg-card"
       />
     </div>
   )
