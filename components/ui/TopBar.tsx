@@ -81,9 +81,13 @@ export default function TopBar() {
           </Button>
         </DialogTrigger>
         {/* Same as the job dialogs: a backdrop click won't discard a half-written message. */}
-        <DialogContent onInteractOutside={(e) => e.preventDefault()}>
+        <DialogContent
+          className="sm:max-w-xl max-h-[90vh] overflow-y-auto"
+          onInteractOutside={(e) => e.preventDefault()}
+        >
           <DialogHeader>
-            <DialogTitle>Send us your concerns</DialogTitle>
+            <DialogTitle className="text-lg font-bold">Send us your concerns</DialogTitle>
+            <DialogDescription>Found a bug or have a suggestion? Tell us and we&apos;ll get back to you.</DialogDescription>
           </DialogHeader>
           <SendConcernForm onClose={() => updateModal(false)} />
         </DialogContent>

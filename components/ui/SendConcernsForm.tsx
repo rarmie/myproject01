@@ -5,6 +5,9 @@ import { z } from 'zod'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { DialogClose, DialogFooter } from '@/components/ui/dialog'
+import FormField from '@/components/FormField'
 import { useRouter } from 'next/navigation'
 
 const concernSchema = z.object({
@@ -51,38 +54,58 @@ export default function SendConcernForm({onClose}: {onClose: () => void}) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='space-y-4 flex flex-col'>
-        {error && (
-          <p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">
-            {error}
-          </p>
-        )}
+    <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+      {error && (
+        <p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">
+          {error}
+        </p>
+      )}
 
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium">Name</label>
-          <Input placeholder='Enter your name...' {...register('name')} />
-          {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
-        </div>
+      {/* Every field is required, so none gets a * (it only marks required fields in mixed forms). */}
+      <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
+        <FormField id="concern-name" label="Name" error={errors.name?.message}>
+          <Input
+            id="concern-name"
+            placeholder="e.g. Alex Cruz"
+            autoComplete="name"
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? 'concern-name-error' : undefined}
+            {...register('name')}
+          />
+        </FormField>
 
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium">Email</label>
-          <Input placeholder='Enter your email...' {...register('email')} />
-          {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
-        </div>
+        <FormField id="concern-email" label="Email" error={errors.email?.message}>
+          <Input
+            id="concern-email"
+            type="email"
+            placeholder="name@example.com"
+            autoComplete="email"
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? 'concern-email-error' : undefined}
+            {...register('email')}
+          />
+        </FormField>
 
-        <div className="flex flex-col space-y-1.5">
-          <label className="text-sm font-medium">Description</label>
-          <textarea
-            placeholder="Describe the issue..."
-            className="rounded-lg border h-40 px-2.5 py-1 transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+        <FormField id="concern-message" label="Description" error={errors.message?.message} className="sm:col-span-2">
+          <Textarea
+            id="concern-message"
+            className="h-36 max-h-36"
+            placeholder="What happened, and what did you expect to happen?"
+            aria-invalid={!!errors.message}
+            aria-describedby={errors.message ? 'concern-message-error' : undefined}
             {...register('message')}
           />
-          {errors.message && <p className="text-xs text-destructive">{errors.message.message}</p>}
-        </div>
+        </FormField>
+      </div>
 
-        <Button type='submit' className='max-w-max ms-auto' disabled={isLoading}>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button type="button" variant="ghost">Cancel</Button>
+        </DialogClose>
+        <Button type="submit" disabled={isLoading}>
           {isLoading ? 'Sending...' : 'Send'}
         </Button>
+      </DialogFooter>
     </form>
   )
 }

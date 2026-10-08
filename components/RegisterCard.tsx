@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation"
 import {Card, CardHeader, CardContent, CardFooter} from './ui/card'
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import FormField from "./FormField"
 
 const registerSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -92,7 +93,7 @@ export default function RegisterCard(){
             <CardContent>
                 <Button 
                     variant="outline" 
-                    className="w-full py-6 flex gap-2"
+                    className="w-full h-10 flex gap-2"
                     onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
                 >
                     <svg
@@ -128,38 +129,70 @@ export default function RegisterCard(){
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    {error && (<p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">{error}</p>)}
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium">First Name</label>
-                        <Input placeholder="Enter your first name..." {...register('firstName')}/>
-                        {errors.firstName && <p className="text-sm text-destructive">{errors.firstName.message}</p>}
+                    {error && (
+                        <p className="text-sm font-medium text-destructive text-center bg-destructive/10 py-2 rounded">
+                            {error}
+                        </p>
+                    )}
+                    <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
+                        <FormField id="register-first" label="First name" error={errors.firstName?.message}>
+                            <Input
+                                id="register-first"
+                                placeholder="e.g. Alex"
+                                autoComplete="given-name"
+                                aria-invalid={!!errors.firstName}
+                                aria-describedby={errors.firstName ? 'register-first-error' : undefined}
+                                {...register('firstName')}
+                            />
+                        </FormField>
+
+                        <FormField id="register-last" label="Last name" error={errors.lastName?.message}>
+                            <Input
+                                id="register-last"
+                                placeholder="e.g. Cruz"
+                                autoComplete="family-name"
+                                aria-invalid={!!errors.lastName}
+                                aria-describedby={errors.lastName ? 'register-last-error' : undefined}
+                                {...register('lastName')}
+                            />
+                        </FormField>
                     </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Last Name</label>
-                        <Input placeholder="Enter your last name..." {...register('lastName')}/>
-                        {errors.lastName && <p className="text-sm text-destructive">{errors.lastName.message}</p>}
-                    </div>
+                    <FormField id="register-email" label="Email" error={errors.email?.message}>
+                        <Input
+                            id="register-email"
+                            type="email"
+                            placeholder="name@example.com"
+                            autoComplete="email"
+                            aria-invalid={!!errors.email}
+                            aria-describedby={errors.email ? 'register-email-error' : undefined}
+                            {...register('email')}
+                        />
+                    </FormField>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Email</label>
-                        <Input placeholder="Enter your email..." {...register('email')}/>
-                        {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
-                    </div>
+                    <FormField id="register-password" label="Password" error={errors.password?.message} hint="At least 10 characters.">
+                        <Input
+                            id="register-password"
+                            type="password"
+                            autoComplete="new-password"
+                            aria-invalid={!!errors.password}
+                            aria-describedby={errors.password ? 'register-password-error' : undefined}
+                            {...register('password')}
+                        />
+                    </FormField>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Password</label>
-                        <Input type="password" placeholder="Enter your password..." {...register('password')}/>
-                        {errors.password && <p className="text-sm text-destructive">{errors.password?.message}</p>}
-                    </div>
+                    <FormField id="register-confirm" label="Confirm password" error={errors.confirmPassword?.message}>
+                        <Input
+                            id="register-confirm"
+                            type="password"
+                            autoComplete="new-password"
+                            aria-invalid={!!errors.confirmPassword}
+                            aria-describedby={errors.confirmPassword ? 'register-confirm-error' : undefined}
+                            {...register('confirmPassword')}
+                        />
+                    </FormField>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Confirm Password</label>
-                        <Input type="password" placeholder="Confirm your password..." {...register('confirmPassword')}/>
-                        {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>}
-                    </div>
-
-                    <Button className="w-full py-6" disabled={isLoading}>{isLoading? 'Creating account...': 'Sign-up'}</Button>
+                    <Button type="submit" className="w-full h-10" disabled={isLoading}>{isLoading ? 'Creating account...' : 'Create account'}</Button>
                 </form>
             </CardContent>
             <CardFooter className="flex justify-center">
