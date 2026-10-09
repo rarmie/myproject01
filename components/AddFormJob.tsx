@@ -28,6 +28,19 @@ const jobSchema = z.object({
 
 type JobFormData = z.infer<typeof jobSchema>
 
+function asLink(input: string): string | null {
+  const link = input.trim()
+
+  if (!/\s/.test(link) && URL.canParse(link)){
+    const protocol = new URL(link).protocol
+
+    if (protocol === "http:" || protocol === "https:")
+      return link
+  }
+
+  return null
+}
+
 export default function AddJobForm({onClose}: {onClose: () => void}) {
   const router = useRouter()
 
@@ -44,14 +57,20 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
   const [error, setError] = useState<string|null>(null)
 
   const trimmedPastedText = pasteText.trim().length
+  const link = asLink(pasteText)
+  const textOutOfRange = link === null && (trimmedPastedText < 20 || trimmedPastedText > 50_000)
 
   function setHint(){
-    if (trimmedPastedText < 20){
+    if (typeof link === "string"){
+      return "Link detected."
+    } 
+    else{
+      if (trimmedPastedText < 20){
       return "Paste at least 20 characters."
-    }
-
-    if (trimmedPastedText > 50_000){
-      return "Pasted text exceeds the maximum amount of characters."
+      }
+      if (trimmedPastedText > 50_000){
+        return "Pasted text exceeds the maximum amount of characters."
+      }
     }
   }
 
@@ -59,11 +78,13 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
     setExtracting(true)
     setExtractError(null)
 
+    const payload = link ? {url: pasteText} : {text: pasteText}
+
     try {
     const res = await fetch('/api/jobs/extract', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({text: pasteText})
+      body: JSON.stringify(payload)
     })
 
     if (!res.ok){
@@ -73,10 +94,12 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
     }
 
     const extracted = await res.json()
+    const jobLink = link ?? extracted.link
+    
     if (extracted.company) setValue('company', extracted.company)
     if (extracted.role) setValue('role', extracted.role)
     if (extracted.salary) setValue('salary', extracted.salary)
-    if (extracted.link) setValue('link', extracted.link)
+    if (jobLink) setValue('link', jobLink)
     if (extracted.requirements) setValue('requirements', extracted.requirements.join("\n"))
 
     } catch (err) {
@@ -158,7 +181,7 @@ export default function AddJobForm({onClose}: {onClose: () => void}) {
             type="button"
             variant="outline"
             size="sm"
-            disabled={isExtracting || trimmedPastedText < 20 || trimmedPastedText > 50_000}
+            disabled={isExtracting || textOutOfRange}
             onClick={handleExtract}
           >
             {isExtracting ? 'Extracting...' : 'Extract details'}

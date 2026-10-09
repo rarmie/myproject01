@@ -3,9 +3,12 @@ import { z } from 'zod'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
-const extractSchema = z.object({
-    text: z.string().trim().min(20).max(50_000),
-})
+const extractSchema = z.union([
+    z.strictObject({ text: z.string().trim().min(20).max(50_000) }),
+    z.strictObject({ url: z.url({ protocol: /^https?$/ }).max(2048) }),
+])
+
+type BackendError = { detail?: unknown }
 
 export async function POST(req: NextRequest){
     const session = await getServerSession(authOptions)
@@ -63,14 +66,16 @@ export async function POST(req: NextRequest){
 
     
 
-    if (backendRes.status === 429 || backendRes.status === 503){
-        return NextResponse.json(
-            {error: 'Extraction failed. Try again later.'},
-            {status: backendRes.status}
-        )
-    }
-
     if (!backendRes.ok){
+        const data: BackendError | null = await backendRes.json().catch(() => null)
+
+        if (typeof data?.detail === "string"){
+            return NextResponse.json(
+                {error: data.detail},
+                {status: backendRes.status}
+            )
+        }
+
         return NextResponse.json(
             {error: "Extraction failed. Try again later."},
             {status: 502}
