@@ -73,20 +73,22 @@ export default async function JobsPage({
   const hasJobParam = Boolean(job);
 
   return (
-    <div className="p-6">
-      <div className="flex flex-wrap items-center justify-between gap-x-4 mb-4">
-        <div>
-          <h1 className="text-xl font-bold text-foreground">Job Applications</h1>
-          <p className="text-sm text-muted-foreground">{jobs.length} application{jobs.length === 1 ? "" : "s"}</p>
-        </div>
+    <div>
+      {/* Title left, search right, on one row. No box around the panes below: they sit
+          straight on the page background, under the top bar. */}
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 pt-5 pb-3">
+        <h1 className="text-[22px] font-bold tracking-tight text-foreground">Job Applications</h1>
         <SearchBar />
       </div>
 
-      {/* From md up the box has a fixed height, so the list's open group can fill the space
-          between the group headers, and each pane scrolls on its own. */}
-      <div className="rounded-xl border bg-card overflow-hidden flex min-h-[60vh] md:h-[calc(100vh-12rem)] md:min-h-[28rem]">
+      {/* From md up the panes have a fixed height (the window minus the top bar and title row),
+          so the list's open group can fill the space between the group headers, and each pane
+          scrolls on its own. */}
+      <div className="flex min-h-[60vh] md:h-[calc(100vh-8rem)] md:min-h-[28rem]">
+        {/* The list/detail divider is drawn by ::after rather than border-r, so it can fade in
+            from transparent at the top instead of touching the title row. */}
         <div
-          className={`w-full md:w-88 shrink-0 md:border-r md:h-full ${
+          className={`relative w-full md:w-88 shrink-0 md:h-full md:after:absolute md:after:inset-y-0 md:after:right-0 md:after:w-px md:after:bg-[linear-gradient(to_bottom,transparent,var(--divider)_48px)] ${
             hasJobParam ? "hidden md:block" : ""
           }`}
         >

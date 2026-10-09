@@ -23,19 +23,21 @@ export const STATUS_LABEL: Record<ApplicationStatus, string> = {
     REJECTED: 'Rejected'
 }
 
+// Applied follows the theme accent (indigo in light, emerald in dark). Offer is fuchsia in both
+// themes so it never looks like the accent. Each status is deeper in light, lighter in dark.
 export const STATUS_DOT: Record<ApplicationStatus, string> = {
-    WISHLIST: 'bg-zinc-400',
+    WISHLIST: 'bg-slate-400 dark:bg-slate-500',
     APPLIED: 'bg-primary',
-    INTERVIEW: 'bg-yellow-500',
-    OFFER: 'bg-green-500',
-    REJECTED: 'bg-red-500'
+    INTERVIEW: 'bg-amber-600 dark:bg-amber-300',
+    OFFER: 'bg-fuchsia-600 dark:bg-fuchsia-400',
+    REJECTED: 'bg-red-600 dark:bg-red-400'
 }
 
 export const STATUS_BADGE: Record<ApplicationStatus, string> = {
     WISHLIST: 'bg-muted text-muted-foreground',
     APPLIED: 'bg-accent text-accent-foreground',
-    INTERVIEW: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-400',
-    OFFER: 'bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-400',
+    INTERVIEW: 'bg-amber-100 text-amber-800 dark:bg-amber-400/15 dark:text-amber-300',
+    OFFER: 'bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-400/15 dark:text-fuchsia-300',
     REJECTED: 'bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-400',
 }
 

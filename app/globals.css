@@ -7,8 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-bricolage);
+  --font-sans: var(--font-outfit);
+  --font-heading: var(--font-outfit);
+  --color-topbar: var(--topbar);
+  --color-divider: var(--divider);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -47,25 +49,29 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Light theme. Design: docs/mockups/2026-10-09-jobs-page-midnight.html.
+   Soft grey page, white top bar and cards, indigo accent. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --background: #f4f6f9;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
   --primary: oklch(0.511 0.262 276.97);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --primary-foreground: #ffffff;
+  --secondary: #eef1f5;
+  --secondary-foreground: #0f172a;
+  --muted: #eef1f5;
+  --muted-foreground: #5f6b80;
   --accent: oklch(0.94 0.03 276.97);
   --accent-foreground: oklch(0.38 0.2 276.97);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  --border: #e3e7ee;
+  --input: #d5dbe5;
   --ring: oklch(0.585 0.233 276.97);
+  --topbar: #ffffff;
+  --divider: #d5dbe5;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -82,25 +88,28 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* Dark theme ("Midnight"), the default. Navy-black page, lighter top bar, emerald accent. */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.63 0.21 276.97);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.28 0.09 276.97);
-  --accent-foreground: oklch(0.85 0.08 276.97);
+  --background: #0a0e16;
+  --foreground: #e7ebf3;
+  --card: #131a29;
+  --card-foreground: #e7ebf3;
+  --popover: #131a29;
+  --popover-foreground: #e7ebf3;
+  --primary: #34d399;
+  --primary-foreground: #06281c;
+  --secondary: #182132;
+  --secondary-foreground: #e7ebf3;
+  --muted: #1a2335;
+  --muted-foreground: #8590a6;
+  --accent: #132a22;
+  --accent-foreground: #6ee7b7;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.63 0.21 276.97);
+  --border: #1d2636;
+  --input: #2a3448;
+  --ring: #34d399;
+  --topbar: #0e1320;
+  --divider: #2c3850;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);

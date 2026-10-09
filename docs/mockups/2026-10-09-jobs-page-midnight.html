@@ -1,0 +1,127 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  .m{font:12px/1.45 'Outfit',system-ui,sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--frame);border-radius:10px;overflow:hidden}
+  .m *{box-sizing:border-box}
+  .m .sp{flex:1}.m .sub{color:var(--sub)}
+  .m .top{display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--topbg);border-bottom:1px solid var(--div);box-shadow:var(--topshadow)}
+  .m .brand{display:flex;align-items:center;gap:7px;font-weight:700;font-size:13px}
+  .m .logo{width:20px;height:20px;border-radius:7px;background:var(--pri);color:var(--onp);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+  .m nav{display:flex;gap:4px}.m nav span{padding:4px 9px;border-radius:7px;color:var(--sub)}.m nav .on{background:var(--nav);color:var(--ink);font-weight:600}
+  .m .btn{height:28px;padding:0 12px;border-radius:7px;background:var(--pri);color:var(--onp);display:inline-flex;align-items:center;font-weight:600;white-space:nowrap}
+  .m .ico{color:var(--sub);padding:0 4px}
+  .m .search{width:250px;height:30px;border:1px solid var(--ls);border-radius:7px;background:var(--card);color:var(--sub);display:flex;align-items:center;padding:0 10px}
+  .m .kbd{margin-left:auto;font-size:10px;border:1px solid var(--ls);border-radius:4px;padding:0 5px}
+  .m .phead{display:flex;align-items:center;gap:12px;padding:16px 24px 10px 16px}
+  .m .phead h1{margin:0;font:700 22px/1.1 'Outfit';letter-spacing:-.02em}
+  .m .shell{display:flex;height:300px}
+  .m .list{width:270px;padding:6px 8px;flex-shrink:0;position:relative}
+  .m .list::after{content:"";position:absolute;top:0;right:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent 0,var(--div) 48px)}
+  .m .detail{flex:1;padding:20px 24px}
+  .m .grp{display:flex;align-items:center;gap:7px;padding:8px 8px 4px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sub)}
+  .m .grp .n{margin-left:auto}
+  .m .dot{width:7px;height:7px;border-radius:50%}
+  .m .row{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:10px}
+  .m .row.sel{background:var(--sel);box-shadow:inset 0 0 0 1px var(--selring)}
+  .m .av{width:26px;height:26px;border-radius:7px;background:var(--av);color:var(--avink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
+  .m .av.lg{width:44px;height:44px;font-size:18px;border-radius:10px}
+  .m .dt{font:700 20px/1.15 'Outfit';letter-spacing:-.02em}
+  .m .badge{font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--appbg);color:var(--app)}
+  .m .bo{height:24px;padding:0 9px;font-size:11px;border-radius:7px;border:1px solid var(--ls);display:inline-flex;align-items:center;background:var(--card)}
+  .m .pipe{display:flex;gap:5px;margin:16px 0 4px}.m .pipe i{flex:1;height:4px;border-radius:2px;background:var(--track)}.m .pipe i.d{background:var(--pri)}
+  .m .pipel{display:flex;justify-content:space-between;font-size:10px;color:var(--sub);margin-bottom:14px}.m .pipel .on{color:var(--ink);font-weight:600}
+  .m .cols{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}
+  .m .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .m .fact{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card)}
+  .m .lbl{font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--sub)}
+  .m .v{font-weight:600;margin-top:3px;font-size:13px}
+  .m .box{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--card)}
+  .m .chip{display:inline-block;padding:3px 8px;border-radius:7px;background:var(--chip);color:var(--chipink);margin:0 4px 5px 0;font-size:11px}
+  .m .lnk{color:var(--link)}
+  .m .stack>*+*{margin-top:12px}
+
+  /* Dark (the saved final design) */
+  .dark{--bg:#0a0e16;--topbg:#0e1320;--card:#131a29;--line:#1d2636;--div:#2c3850;--ls:#2a3448;--frame:#2a3448;--ink:#e7ebf3;--sub:#8590a6;
+    --pri:#34d399;--onp:#06281c;--nav:#182132;--sel:#15241f;--selring:#1f4d3c;--av:#1b2436;--avink:#c9d2e3;--track:#1f2a3b;--chip:#1a2335;--chipink:#c4cde0;--link:#6ee7b7;
+    --app:#6ee7b7;--appbg:rgba(52,211,153,.13);--int:#fcd34d;--off:#e879f9;--wish:#64748b;--rej:#f87171;--topshadow:0 1px 0 rgba(0,0,0,.35)}
+  /* Light A: raised white bar over a soft grey canvas (same idea as dark: bar is the lighter layer) */
+  .la{--bg:#f4f6f9;--topbg:#ffffff;--card:#ffffff;--line:#e3e7ee;--div:#d5dbe5;--ls:#d5dbe5;--frame:#d5dbe5;--ink:#0f172a;--sub:#5f6b80;
+    --pri:oklch(0.511 0.262 276.97);--onp:#ffffff;--nav:#eef1f5;--sel:#eef2ff;--selring:#c7d2fe;--av:#e8ecf2;--avink:#334155;--track:#e2e7ef;--chip:#eef1f5;--chipink:#334155;--link:#4338ca;
+    --app:#4338ca;--appbg:#e0e7ff;--int:#d97706;--off:#c026d3;--wish:#94a3b8;--rej:#dc2626;--topshadow:0 1px 3px rgba(15,23,42,.06)}
+  .opt-head{display:flex;gap:10px;align-items:baseline;margin-bottom:10px}
+  .opt-head h3{margin:0}.opt-head p{margin:2px 0 0}
+</style>
+<h2>Jobs page, chosen 9 Oct 2026: Midnight + Outfit, dark and light</h2>
+<p class="subtitle">Final visual design for <code>/jobs</code>. The layout (list + wide detail, selection in <code>?job</code>) is unchanged from <code>2026-10-02-jobs-layout-wide-detail.html</code>. This changes the look and the page header. Both themes are designed; with no saved choice the theme follows the OS setting (<code>prefers-color-scheme</code>), and the toggle overrides it.</p>
+<ul class="subtitle" style="margin:0 0 16px;padding-left:18px">
+  <li><b>Font:</b> Outfit everywhere, headings at 700.</li>
+  <li><b>Accent:</b> emerald <code>#34d399</code> (dark text) in dark mode; the app's existing indigo <code>oklch(0.511 0.262 277)</code> (white text) in light mode.</li>
+  <li><b>Status colours:</b> Applied follows the accent; Interview amber; Offer fuchsia in both themes; Rejected red; Wishlist grey. Lightness adjusts per theme.</li>
+  <li><b>Top bar:</b> the lighter, "raised" layer in both themes, with a clear line under it. Holds only nav, Add, theme and help.</li>
+  <li><b>Content:</b> no bordered box, no page padding. List and detail share one shade (dark: deepest navy; light: soft grey).</li>
+  <li><b>Title row:</b> "Job Applications" left, search right, one row, no subtitle or count, no line under it.</li>
+  <li><b>Divider:</b> one line between list and detail, fading in from transparent below the title row.</li>
+</ul>
+
+<div class="label" style="margin-bottom:8px">Dark</div>
+<div class="m dark">
+    <div class="top"><span class="brand"><span class="logo">W</span>WorkSpace</span><nav><span>Dashboard</span><span class="on">Jobs</span></nav><span class="sp"></span><span class="btn">+ Add Application</span><span class="ico">☀ ?</span></div>
+    <div class="phead"><h1>Job Applications</h1><span class="sp"></span><div class="search">⌕ Search company or role…<span class="kbd">/</span></div></div>
+    <div class="shell">
+      <div class="list">
+        <div class="grp"><span class="dot" style="background:var(--app)"></span>Applied<span class="n">3</span></div>
+        <div class="row sel"><div class="av">S</div><div><b>Stripe</b><div class="sub">Backend Engineer</div></div><span class="sp"></span><span class="sub">$150k</span></div>
+        <div class="row"><div class="av">L</div><div><b>Linear</b><div class="sub">Full-stack Developer</div></div></div>
+        <div class="grp"><span class="dot" style="background:var(--int)"></span>Interview<span class="n">2</span></div>
+        <div class="grp"><span class="dot" style="background:var(--off)"></span>Offer<span class="n">1</span></div>
+        <div class="grp"><span class="dot" style="background:var(--rej)"></span>Rejected<span class="n">2</span></div>
+      </div>
+      <div class="detail">
+        <div style="display:flex;align-items:center;gap:12px"><div class="av lg">S</div><div><div class="dt">Stripe</div><div class="sub">Backend Engineer</div></div><span class="sp"></span><span class="badge">Applied</span><span class="bo">Edit</span><span class="bo">Delete</span></div>
+        <div class="pipe"><i class="d"></i><i class="d"></i><i></i><i></i></div>
+        <div class="pipel"><span>Wishlist</span><span class="on">Applied</span><span>Interview</span><span>Offer</span></div>
+        <div class="cols"><div class="stack"><div class="facts"><div class="fact"><div class="lbl">Salary</div><div class="v">$150k</div></div><div class="fact"><div class="lbl">Applied</div><div class="v">Sep 28</div></div><div class="fact"><div class="lbl">Source</div><div class="v">Referral</div></div></div><div class="fact"><div class="lbl">Link</div><div class="v lnk">stripe.com/jobs/backend-engineer</div></div></div><div><div class="lbl" style="margin-bottom:5px">Requirements</div><div class="box"><span class="chip">Go or Java</span><span class="chip">PostgreSQL</span><span class="chip">4+ years</span><span class="chip">AWS</span></div></div></div>
+      </div>
+    </div>
+  </div>
+
+<div class="label" style="margin:24px 0 8px">Light</div>
+<div class="m la">
+    <div class="top"><span class="brand"><span class="logo">W</span>WorkSpace</span><nav><span>Dashboard</span><span class="on">Jobs</span></nav><span class="sp"></span><span class="btn">+ Add Application</span><span class="ico">☾ ?</span></div>
+    <div class="phead"><h1>Job Applications</h1><span class="sp"></span><div class="search">⌕ Search company or role…<span class="kbd">/</span></div></div>
+    <div class="shell">
+      <div class="list">
+        <div class="grp"><span class="dot" style="background:var(--pri)"></span>Applied<span class="n">3</span></div>
+        <div class="row sel"><div class="av">S</div><div><b>Stripe</b><div class="sub">Backend Engineer</div></div><span class="sp"></span><span class="sub">$150k</span></div>
+        <div class="row"><div class="av">L</div><div><b>Linear</b><div class="sub">Full-stack Developer</div></div></div>
+        <div class="grp"><span class="dot" style="background:var(--int)"></span>Interview<span class="n">2</span></div>
+        <div class="grp"><span class="dot" style="background:var(--off)"></span>Offer<span class="n">1</span></div>
+        <div class="grp"><span class="dot" style="background:var(--rej)"></span>Rejected<span class="n">2</span></div>
+      </div>
+      <div class="detail">
+        <div style="display:flex;align-items:center;gap:12px"><div class="av lg">S</div><div><div class="dt">Stripe</div><div class="sub">Backend Engineer</div></div><span class="sp"></span><span class="badge">Applied</span><span class="bo">Edit</span><span class="bo">Delete</span></div>
+        <div class="pipe"><i class="d"></i><i class="d"></i><i></i><i></i></div>
+        <div class="pipel"><span>Wishlist</span><span class="on">Applied</span><span>Interview</span><span>Offer</span></div>
+        <div class="cols"><div class="stack"><div class="facts"><div class="fact"><div class="lbl">Salary</div><div class="v">$150k</div></div><div class="fact"><div class="lbl">Applied</div><div class="v">Sep 28</div></div><div class="fact"><div class="lbl">Source</div><div class="v">Referral</div></div></div><div class="fact"><div class="lbl">Link</div><div class="v lnk">stripe.com/jobs/backend-engineer</div></div></div><div><div class="lbl" style="margin-bottom:5px">Requirements</div><div class="box"><span class="chip">Go or Java</span><span class="chip">PostgreSQL</span><span class="chip">4+ years</span><span class="chip">AWS</span></div></div></div>
+      </div>
+    </div>
+  </div>
+
+<h3 style="margin-top:24px">Tokens</h3>
+<p class="subtitle">These map onto the shadcn variables in <code>app/globals.css</code> (<code>:root</code> for light, <code>.dark</code> for dark) when applied.</p>
+<table style="border-collapse:collapse;font:12px 'Outfit',sans-serif">
+  <tr><th style="text-align:left;padding:4px 12px 4px 0">Token</th><th style="text-align:left;padding:4px 12px">Dark</th><th style="text-align:left;padding:4px 12px">Light</th></tr>
+  <tr><td>content background</td><td style="padding:4px 12px"><code>#0a0e16</code></td><td style="padding:4px 12px"><code>#f4f6f9</code></td></tr>
+  <tr><td>top bar</td><td style="padding:4px 12px"><code>#0e1320</code></td><td style="padding:4px 12px"><code>#ffffff</code></td></tr>
+  <tr><td>card</td><td style="padding:4px 12px"><code>#131a29</code></td><td style="padding:4px 12px"><code>#ffffff</code></td></tr>
+  <tr><td>card border</td><td style="padding:4px 12px"><code>#1d2636</code></td><td style="padding:4px 12px"><code>#e3e7ee</code></td></tr>
+  <tr><td>divider</td><td style="padding:4px 12px"><code>#2c3850</code></td><td style="padding:4px 12px"><code>#d5dbe5</code></td></tr>
+  <tr><td>text</td><td style="padding:4px 12px"><code>#e7ebf3</code></td><td style="padding:4px 12px"><code>#0f172a</code></td></tr>
+  <tr><td>muted text</td><td style="padding:4px 12px"><code>#8590a6</code></td><td style="padding:4px 12px"><code>#5f6b80</code></td></tr>
+  <tr><td>primary / on primary</td><td style="padding:4px 12px"><code>#34d399</code> / <code>#06281c</code></td><td style="padding:4px 12px"><code>oklch(0.511 0.262 277)</code> / <code>#ffffff</code></td></tr>
+  <tr><td>link</td><td style="padding:4px 12px"><code>#6ee7b7</code></td><td style="padding:4px 12px"><code>#4338ca</code></td></tr>
+  <tr><td>Interview</td><td style="padding:4px 12px"><code>#fcd34d</code></td><td style="padding:4px 12px"><code>#d97706</code></td></tr>
+  <tr><td>Offer</td><td style="padding:4px 12px"><code>#e879f9</code></td><td style="padding:4px 12px"><code>#c026d3</code></td></tr>
+  <tr><td>Rejected</td><td style="padding:4px 12px"><code>#f87171</code></td><td style="padding:4px 12px"><code>#dc2626</code></td></tr>
+  <tr><td>Wishlist</td><td style="padding:4px 12px"><code>#64748b</code></td><td style="padding:4px 12px"><code>#94a3b8</code></td></tr>
+</table>

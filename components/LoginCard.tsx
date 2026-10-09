@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardFooter } from "./ui/card"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import FormField from "./FormField"
 
 const loginSchema = z.object({
     email: z.string().email('Invalid email address'),
@@ -57,7 +58,7 @@ export default function LoginCard() {
             <CardContent>
                 <Button 
                     variant="outline" 
-                    className="w-full py-6 flex gap-2"
+                    className="w-full h-10 flex gap-2"
                     onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
                 >
                     <svg
@@ -88,7 +89,7 @@ export default function LoginCard() {
                 <div className="relative my-6">
                     <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                        <span className="bg-card px-2 text-muted-foreground">Or</span>
                     </div>
                 </div>
 
@@ -99,28 +100,32 @@ export default function LoginCard() {
                         </p>
                     )}
                     
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Email</label>
+                    <FormField id="login-email" label="Email" error={errors.email?.message}>
                         <Input
+                            id="login-email"
                             type="email"
                             placeholder="name@example.com"
+                            autoComplete="email"
+                            aria-invalid={!!errors.email}
+                            aria-describedby={errors.email ? "login-email-error" : undefined}
                             {...register("email")}
                         />
-                        {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
-                    </div>
+                    </FormField>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Password</label>
+                    <FormField id="login-password" label="Password" error={errors.password?.message}>
                         <Input
+                            id="login-password"
                             type="password"
                             placeholder="••••••••"
+                            autoComplete="current-password"
+                            aria-invalid={!!errors.password}
+                            aria-describedby={errors.password ? "login-password-error" : undefined}
                             {...register("password")}
                         />
-                        {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
-                    </div>
-                    
-                    <Button type="submit" className="w-full py-6" disabled={isLoading}>
-                        {isLoading ? "Logging in..." : "Login"}
+                    </FormField>
+
+                    <Button type="submit" className="w-full h-10" disabled={isLoading}>
+                        {isLoading ? "Logging in..." : "Log in"}
                     </Button>
                 </form>
             </CardContent>
